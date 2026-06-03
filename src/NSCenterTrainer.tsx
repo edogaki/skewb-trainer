@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { stateLength, validColors, type SkewbState, Color, type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
+import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
 import { CubeRotation } from './utils';
 
 function shuffleArray(array: unknown[]) {

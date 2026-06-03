@@ -1,5 +1,5 @@
 import "./Skewb.css";
-import { Color, polygons, type SkewbState } from './skewbUtils';
+import { polygons, type SkewbState } from './skewbUtils';
 
 function SkewbRenderer({ state }: { state: SkewbState }) {
     return (
