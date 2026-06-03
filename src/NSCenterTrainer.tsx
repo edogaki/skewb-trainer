@@ -50,8 +50,12 @@ function NSCenterTrainer() {
                 <button onClick={() => {
                     const audio = new Audio(wrongSound);
                     audio.play();
-                    setTotalQuestions((q) => q + 1)
-                    newState();
+                    if (Object.values(isErrorButton).every((v) => v === false)) {
+                        setTotalQuestions((q) => q + 1);
+                    }
+                    setIsErrorButton((obj) => { return Object.fromEntries(
+                        (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
+                    ) as Record<keyof typeof CenterPerm, boolean> });
                 }}>I give up</button>
                 <SkewbRenderer state={nsCenterTrainerStateToSkewbState(nsCenterState)}/>
             </div>
