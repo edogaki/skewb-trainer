@@ -90,7 +90,7 @@ function NSCenterTrainer() {
                     ))}
                 </div>
             </div>
-            <a target="_blank" href="https://docs.google.com/spreadsheets/d/1HcICTLEa15KYq-9FwdQqencTq9m9xHZiSsSZxGsRoTk/edit?gid=1901613729#gid=1901613729">
+            <a target="_blank" href="https://docs.google.com/spreadsheets/d/1HcICTLEa15KYq-9FwdQqencTq9m9xHZiSsSZxGsRoTk">
                 My SA/NS center recognition doc that lists all possible cases and easy-to-mistake ones
             </a>
         </>
