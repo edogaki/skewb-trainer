@@ -3,8 +3,8 @@ import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
 import { CubeRotation } from './utils';
 
-import correctSound from "./sounds/correct.mp3?url";
-import wrongSound from "./sounds/wrong.mp3?url";
+import correctSound from "./sounds/correct.mp3";
+import wrongSound from "./sounds/wrong.mp3";
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -23,6 +23,9 @@ function generateNSCenters() {
     } as NSCenterTrainerState
     return state;
 }
+
+const correctAudio = new Audio(correctSound);
+const wrongAudio = new Audio(wrongSound);
 
 function NSCenterTrainer() {
     const [nsCenterState, setNSCenterState] = useState(generateNSCenters());
@@ -48,8 +51,7 @@ function NSCenterTrainer() {
                     {`${correctQuestions}/${totalQuestions} answered correctly`}
                 </div>
                 <button onClick={() => {
-                    const audio = new Audio(wrongSound);
-                    audio.play();
+                    wrongAudio.play();
                     if (Object.values(isErrorButton).every((v) => v === false)) {
                         setTotalQuestions((q) => q + 1);
                     }
@@ -70,16 +72,14 @@ function NSCenterTrainer() {
                                         setCorrectQuestions((q) => q + 1)
                                         setTotalQuestions((q) => q + 1)
                                     }
-                                    const audio = new Audio(correctSound);
-                                    audio.play();
+                                    correctAudio.play();
                                     newState();
                                 } else {
                                     if (Object.values(isErrorButton).every((v) => v === false)) {
                                         setTotalQuestions((q) => q + 1)
                                     }
                                     setIsErrorButton((obj) => { return { ...obj, [k]: true } });
-                                    const audio = new Audio(wrongSound);
-                                    audio.play();
+                                    wrongAudio.play();
                                 }
                             }}
                         >
