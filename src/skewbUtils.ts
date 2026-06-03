@@ -1,4 +1,4 @@
-import { Matrix, multiply, type MathNumericType } from 'mathjs';
+import { multiply } from 'mathjs';
 import type { CubeRotation, SameLength } from './utils';
 
 const xsc = Math.sqrt(3) * 10;
