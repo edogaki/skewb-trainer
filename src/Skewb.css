@@ -1,0 +1,14 @@
+.trainer {
+    display: flex;
+}
+
+.skewb-box {
+    max-width: 100%;
+    width: 500px;
+    /* border: solid; */
+    padding: 0;
+}
+
+button.error {
+    color: red;
+}
