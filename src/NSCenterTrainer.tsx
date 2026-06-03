@@ -29,7 +29,7 @@ const wrongAudio = new Audio(wrongSound);
 
 function play(audio: HTMLAudioElement) {
     const clone = audio.cloneNode() as HTMLAudioElement;
-    clone.play();
+    return clone.play();
 }
 
 function NSCenterTrainer() {
@@ -56,8 +56,8 @@ function NSCenterTrainer() {
                     <div>
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
                     </div>
-                    <button onClick={() => {
-                        play(wrongAudio);
+                    <button onClick={async () => {
+                        await play(wrongAudio);
                         if (Object.values(isErrorButton).every((v) => v === false)) {
                             setTotalQuestions((q) => q + 1);
                         }
@@ -72,20 +72,20 @@ function NSCenterTrainer() {
                         <div key={k}>
                             <button
                                 className={`${isErrorButton[k] && "error"} `}
-                                onClick={() => {
+                                onClick={async () => {
                                     if (CenterPerm[k] === centerPerm) {
+                                        await play(correctAudio);
                                         if (Object.values(isErrorButton).every((v) => v === false)) {
                                             setCorrectQuestions((q) => q + 1)
                                             setTotalQuestions((q) => q + 1)
                                         }
-                                        play(correctAudio);
                                         newState();
                                     } else {
+                                        await play(wrongAudio);
                                         if (Object.values(isErrorButton).every((v) => v === false)) {
                                             setTotalQuestions((q) => q + 1)
                                         }
                                         setIsErrorButton((obj) => { return { ...obj, [k]: true } });
-                                        play(wrongAudio);
                                     }
                                 }}
                             >
