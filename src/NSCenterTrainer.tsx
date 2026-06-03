@@ -27,6 +27,11 @@ function generateNSCenters() {
 const correctAudio = new Audio(correctSound);
 const wrongAudio = new Audio(wrongSound);
 
+function play(audio: HTMLAudioElement) {
+    const clone = audio.cloneNode() as HTMLAudioElement;
+    clone.play();
+}
+
 function NSCenterTrainer() {
     const [nsCenterState, setNSCenterState] = useState(generateNSCenters());
     const centerPerm = nsCenterTrainerStateToCenterPerm(nsCenterState);
@@ -52,7 +57,7 @@ function NSCenterTrainer() {
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
                     </div>
                     <button onClick={() => {
-                        wrongAudio.play();
+                        play(wrongAudio);
                         if (Object.values(isErrorButton).every((v) => v === false)) {
                             setTotalQuestions((q) => q + 1);
                         }
@@ -73,14 +78,14 @@ function NSCenterTrainer() {
                                             setCorrectQuestions((q) => q + 1)
                                             setTotalQuestions((q) => q + 1)
                                         }
-                                        correctAudio.play();
+                                        play(correctAudio);
                                         newState();
                                     } else {
                                         if (Object.values(isErrorButton).every((v) => v === false)) {
                                             setTotalQuestions((q) => q + 1)
                                         }
                                         setIsErrorButton((obj) => { return { ...obj, [k]: true } });
-                                        wrongAudio.play();
+                                        play(wrongAudio);
                                     }
                                 }}
                             >
