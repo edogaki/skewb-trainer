@@ -3,8 +3,8 @@ import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
 import { CubeRotation } from './utils';
 
-import correctSound from "./sounds/correct.mp3";
-import wrongSound from "./sounds/wrong.mp3";
+import correctSound from "./sounds/correct.mp3?url";
+import wrongSound from "./sounds/wrong.mp3?url";
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
