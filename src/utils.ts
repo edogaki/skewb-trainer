@@ -1,4 +1,4 @@
-import { Matrix, matrix, multiply, type MathNumericType } from 'mathjs';
+import { matrix, multiply } from 'mathjs';
 
 type SameLength<T extends readonly unknown[], NewType> = {
     [K in keyof T]: NewType;
