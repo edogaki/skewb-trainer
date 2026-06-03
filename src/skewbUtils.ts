@@ -286,7 +286,6 @@ function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerS
 }
 
 const CenterPerm = {
-    Pure: "Pure/Solved",
     Swirl: "Swirl Perm",
     Wat: "Wat Perm",
     X: "X Perm",
@@ -297,6 +296,7 @@ const CenterPerm = {
     TripleSledge: "Triple Sledge",
     H: "H Perm",
     Z: "Z Perm",
+    Pure: "Pure/Solved",
 } as const;
 
 type CenterPerm = (typeof CenterPerm)[keyof typeof CenterPerm];
