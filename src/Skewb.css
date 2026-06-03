@@ -2,9 +2,15 @@
     display: flex;
 }
 
+.trainer-left {
+    flex: 0 1 500px;
+}
+
+.trainer-right {
+    flex: 1 0 130px;
+}
+
 .skewb-box {
-    max-width: 100%;
-    width: 500px;
     /* border: solid; */
     padding: 0;
 }
