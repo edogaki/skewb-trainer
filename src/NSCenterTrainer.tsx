@@ -3,6 +3,9 @@ import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
 import { CubeRotation } from './utils';
 
+import correctSound from "./sounds/correct.mp3";
+import wrongSound from "./sounds/wrong.mp3";
+
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -45,7 +48,7 @@ function NSCenterTrainer() {
                     {`${correctQuestions}/${totalQuestions} answered correctly`}
                 </div>
                 <button onClick={() => {
-                    const audio = new Audio("/sounds/wrong.mp3");
+                    const audio = new Audio(wrongSound);
                     audio.play();
                     setTotalQuestions((q) => q + 1)
                     newState();
@@ -63,7 +66,7 @@ function NSCenterTrainer() {
                                         setCorrectQuestions((q) => q + 1)
                                         setTotalQuestions((q) => q + 1)
                                     }
-                                    const audio = new Audio("/sounds/correct.mp3");
+                                    const audio = new Audio(correctSound);
                                     audio.play();
                                     newState();
                                 } else {
@@ -71,7 +74,7 @@ function NSCenterTrainer() {
                                         setTotalQuestions((q) => q + 1)
                                     }
                                     setIsErrorButton((obj) => { return { ...obj, [k]: true } });
-                                    const audio = new Audio("/sounds/wrong.mp3");
+                                    const audio = new Audio(wrongSound);
                                     audio.play();
                                 }
                             }}
