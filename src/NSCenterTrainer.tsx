@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
 import { CubeRotation } from './utils';
 
 import correctSound from "./sounds/correct.mp3";
 import wrongSound from "./sounds/wrong.mp3";
+import { bindKeysToCenterPerm } from './keyboardShortcuts';
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -49,6 +50,30 @@ function NSCenterTrainer() {
         setNSCenterState(generateNSCenters());
         setIsErrorButton(isErrorButtonInitialState)
     }
+
+    async function selectCenterPerm(k: keyof typeof CenterPerm) {
+        console.log({ k, centerPerm });
+        if (CenterPerm[k] === centerPerm) {
+            await play(correctAudio);
+            if (Object.values(isErrorButton).every((v) => v === false)) {
+                setCorrectQuestions((q) => q + 1)
+                setTotalQuestions((q) => q + 1)
+            }
+            newState();
+        } else {
+            await play(wrongAudio);
+            if (Object.values(isErrorButton).every((v) => v === false)) {
+                setTotalQuestions((q) => q + 1)
+            }
+            setIsErrorButton((obj) => { return { ...obj, [k]: true } });
+        }
+    }
+
+    useEffect(() => {
+        const cleanupFunc = bindKeysToCenterPerm(selectCenterPerm);
+        return cleanupFunc;
+    }, [centerPerm, isErrorButton])
+
     return (
         <>
             <div className="trainer">
@@ -72,22 +97,7 @@ function NSCenterTrainer() {
                         <div key={k}>
                             <button
                                 className={`${isErrorButton[k] && "error"} `}
-                                onClick={async () => {
-                                    if (CenterPerm[k] === centerPerm) {
-                                        await play(correctAudio);
-                                        if (Object.values(isErrorButton).every((v) => v === false)) {
-                                            setCorrectQuestions((q) => q + 1)
-                                            setTotalQuestions((q) => q + 1)
-                                        }
-                                        newState();
-                                    } else {
-                                        await play(wrongAudio);
-                                        if (Object.values(isErrorButton).every((v) => v === false)) {
-                                            setTotalQuestions((q) => q + 1)
-                                        }
-                                        setIsErrorButton((obj) => { return { ...obj, [k]: true } });
-                                    }
-                                }}
+                                onClick={() => selectCenterPerm(k)}
                             >
                                 {CenterPerm[k]}
                             </button>
@@ -98,6 +108,9 @@ function NSCenterTrainer() {
             <a target="_blank" href="https://docs.google.com/spreadsheets/d/1HcICTLEa15KYq-9FwdQqencTq9m9xHZiSsSZxGsRoTk">
                 My SA/NS center recognition doc that lists all possible cases and easy-to-mistake ones
             </a>
+            <p>
+                Keybinds: Space for Pure/Solved, A for Swirl, S for Wat, D for X perm, F for Horizontal U perm, and so on.
+            </p>
         </>
     )
 }
