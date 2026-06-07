@@ -242,7 +242,7 @@ type NSCenterTrainerState = {
     rotation: CubeRotation,
 }
 
-function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerState) {
+function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerState, options: Options) {
     const rotatedCenters = Object.fromEntries(
         Object.values(Color).map((c) => [c, axisToColor[multiply(nsCenterTrainerState.rotation, colorAxes[c]).toArray().join(",")]])
     ) as Record<Color, Color>;
@@ -273,8 +273,8 @@ function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerS
 
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Orange],
-        rotatedCenters[Color.Orange],
+        rotatedCenters[options.showRightCornerColors ? Color.Orange : Color.Gray],
+        rotatedCenters[options.showRightCornerColors ? Color.Orange : Color.Gray],
         rotatedCenters[nsCenterTrainerState.centers[2]],
 
         rotatedCenters[Color.Gray],
@@ -376,6 +376,10 @@ function nsCenterTrainerStateToCenterPerm(nsCenterTrainerState: NSCenterTrainerS
 
 // const nonWhiteColors: Color[] = [Color.Red, Color.Green, Color.Orange, Color.Blue, Color.Yellow];
 
+interface Options {
+    showRightCornerColors: boolean;
+}
+
 export {
     polygons,
     Color,
@@ -387,4 +391,5 @@ export {
     nsCenterTrainerStateToSkewbState,
     CenterPerm,
     nsCenterTrainerStateToCenterPerm,
+    type Options,
 }

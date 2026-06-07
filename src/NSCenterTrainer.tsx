@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm } from './skewbUtils';
+import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options } from './skewbUtils';
 import { CubeRotation } from './utils';
 
 import correctSound from "./sounds/correct.mp3";
 import wrongSound from "./sounds/wrong.mp3";
 import { bindKeysToCenterPerm } from './keyboardShortcuts';
+import OptionsEditor from './OptionsEditor';
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -33,7 +34,11 @@ function play(audio: HTMLAudioElement) {
     return clone.play();
 }
 
+
 function NSCenterTrainer() {
+    const [options, setOptions] = useState<Options>({
+        showRightCornerColors: true,
+    });
     const [nsCenterState, setNSCenterState] = useState(generateNSCenters());
     const centerPerm = nsCenterTrainerStateToCenterPerm(nsCenterState);
     
@@ -54,14 +59,14 @@ function NSCenterTrainer() {
     async function selectCenterPerm(k: keyof typeof CenterPerm) {
         console.log({ k, centerPerm });
         if (CenterPerm[k] === centerPerm) {
-            await play(correctAudio);
+            play(correctAudio);
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setCorrectQuestions((q) => q + 1)
                 setTotalQuestions((q) => q + 1)
             }
             newState();
         } else {
-            await play(wrongAudio);
+            play(wrongAudio);
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setTotalQuestions((q) => q + 1)
             }
@@ -82,7 +87,7 @@ function NSCenterTrainer() {
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
                     </div>
                     <button onClick={async () => {
-                        await play(wrongAudio);
+                        play(wrongAudio);
                         if (Object.values(isErrorButton).every((v) => v === false)) {
                             setTotalQuestions((q) => q + 1);
                         }
@@ -90,7 +95,7 @@ function NSCenterTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
                         ) as Record<keyof typeof CenterPerm, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCenterTrainerStateToSkewbState(nsCenterState)}/>
+                    <SkewbRenderer state={nsCenterTrainerStateToSkewbState(nsCenterState, options)}/>
                 </div>
                 <div className="trainer-right">
                     {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
@@ -111,6 +116,7 @@ function NSCenterTrainer() {
             <p>
                 Keybinds: Space for Pure/Solved, A for Swirl, S for Wat, D for X perm, F for Horizontal U perm, and so on.
             </p>
+            <OptionsEditor options={options} setOptions={setOptions} />
         </>
     )
 }
