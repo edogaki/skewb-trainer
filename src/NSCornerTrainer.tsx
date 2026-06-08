@@ -17,11 +17,16 @@ function generateNSCorners() {
 }
 
 const correctAudio = new Audio(correctSound);
+correctAudio.load();
 const wrongAudio = new Audio(wrongSound);
+wrongAudio.load();
 
 function play(audio: HTMLAudioElement) {
-    const clone = audio.cloneNode() as HTMLAudioElement;
-    return clone.play();
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.currentTime = 0;
+    }
 }
 
 
