@@ -7,6 +7,8 @@ function App() {
     <>
       <h1>Skewb Trainer</h1>
       <NSCenterTrainer />
+      <br />
+      <br />
       <NSCornerTrainer />
     </>
   )
