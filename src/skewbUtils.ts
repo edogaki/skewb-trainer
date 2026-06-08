@@ -429,15 +429,15 @@ function nsCornerTrainerStateToSkewbState(nsCornerTrainerState: NSCornerTrainerS
 }
 
 const CornerOrientation = {
-    Pure: "Pure/Solved",
-    PeanutLF: "Peanut ⬅️",
-    PeanutFR: "Peanut ⬇️",
-    PeanutRB: "Peanut ➡️",
-    PeanutBL: "Peanut ⬆️",
     PiF: "Pi ↙️",
     PiR: "Pi ↘️",
     PiB: "Pi ↗️",
     PiL: "Pi ↖️",
+    PeanutLF: "Peanut ⬅️",
+    PeanutFR: "Peanut ⬇️",
+    PeanutRB: "Peanut ➡️",
+    PeanutBL: "Peanut ⬆️",
+    Pure: "Pure/Solved",
 }
 
 type CornerOrientation = (typeof CornerOrientation)[keyof typeof CornerOrientation];
