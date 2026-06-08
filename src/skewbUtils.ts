@@ -368,7 +368,7 @@ const nsCenterPerms = {
     [[Color.Yellow, Color.Blue, Color.Red].join(",")]: CenterPerm.X,
     [[Color.Yellow, Color.Blue, Color.Green].join(",")]: CenterPerm.Wat,
     [[Color.Yellow, Color.Blue, Color.Orange].join(",")]: CenterPerm.TripleSledge,
-}
+};
 
 function nsCenterTrainerStateToCenterPerm(nsCenterTrainerState: NSCenterTrainerState) {
     return nsCenterPerms[nsCenterTrainerState.centers.join(",")];
@@ -378,6 +378,84 @@ function nsCenterTrainerStateToCenterPerm(nsCenterTrainerState: NSCenterTrainerS
 
 interface Options {
     showRightCornerColors: boolean;
+}
+
+type NSCornerTrainerState = {
+    corners: [Color, Color],
+    rotation: CubeRotation,
+};
+
+function nsCornerTrainerStateToSkewbState(nsCornerTrainerState: NSCornerTrainerState) {
+    const rotatedCenters = Object.fromEntries(
+        Object.values(Color).map((c) => [c, axisToColor[multiply(nsCornerTrainerState.rotation, colorAxes[c]).toArray().join(",")]])
+    ) as Record<Color, Color>;
+    return [
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+
+        rotatedCenters[nsCornerTrainerState.corners[0]],
+        rotatedCenters[nsCornerTrainerState.corners[1]],
+        rotatedCenters[Color.Green],
+        rotatedCenters[Color.Green],
+        rotatedCenters[nonWhiteColors[Math.floor(Math.random() * nonWhiteColors.length)]],
+
+        rotatedCenters[Color.White],
+        rotatedCenters[Color.White],
+        rotatedCenters[Color.White],
+        rotatedCenters[Color.White],
+        rotatedCenters[Color.White],
+
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray],
+    ] as readonly Color[] as SkewbState;
+}
+
+const CornerOrientation = {
+    Pure: "Pure",
+    PeanutLF: "Peanut ⬅️",
+    PeanutFR: "Peanut ⬇️",
+    PeanutRB: "Peanut ➡️",
+    PeanutBL: "Peanut ⬆️",
+    PiF: "Pi ↙️",
+    PiR: "Pi ↘️",
+    PiB: "Pi ↗️",
+    PiL: "Pi ↖️",
+}
+
+type CornerOrientation = (typeof CornerOrientation)[keyof typeof CornerOrientation];
+
+const nsCornerOrientations = {
+    [[Color.Green, Color.Green].join("|")]: CornerOrientation.Pure,
+    [[Color.Green, Color.Yellow].join("|")]: CornerOrientation.PeanutLF,
+    [[Color.Green, Color.Orange].join("|")]: CornerOrientation.PeanutRB,
+    [[Color.Red, Color.Green].join("|")]: CornerOrientation.PeanutBL,
+    [[Color.Red, Color.Yellow].join("|")]: CornerOrientation.PiL,
+    [[Color.Red, Color.Orange].join("|")]: CornerOrientation.PiB,
+    [[Color.Yellow, Color.Green].join("|")]: CornerOrientation.PeanutFR,
+    [[Color.Yellow, Color.Yellow].join("|")]: CornerOrientation.PiF,
+    [[Color.Yellow, Color.Orange].join("|")]: CornerOrientation.PiR,
+} as const;
+
+function nsCornerTrainerStateToCornerOrientation(nsCornerTrainerState: NSCornerTrainerState) {
+    return nsCornerOrientations[nsCornerTrainerState.corners.join("|")];
 }
 
 export {
@@ -392,4 +470,9 @@ export {
     CenterPerm,
     nsCenterTrainerStateToCenterPerm,
     type Options,
+    type NSCornerTrainerState,
+    nsCornerTrainerStateToSkewbState,
+    CornerOrientation,
+    nsCornerOrientations,
+    nsCornerTrainerStateToCornerOrientation,
 }
