@@ -1,19 +1,12 @@
 import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options, nsCenterTrainerStateToSkewbRendererState } from './utils/skewbUtils';
-import { CubeRotation } from './utils/math';
+import { CubeRotation, shuffleArray } from './utils/math';
 
 import { bindKeysToCenterPerm } from './keyboardShortcuts';
 import OptionsEditor from './OptionsEditor';
 import { nonWhiteColors } from './utils/color';
 import { Sound } from './utils/sounds';
-
-function shuffleArray(array: unknown[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
 
 function generateNSCenters() {
     const centers = nonWhiteColors.slice();
