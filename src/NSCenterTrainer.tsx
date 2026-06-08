@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { type NSCenterTrainerState, nonWhiteColors, nsCenterTrainerStateToSkewbState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options } from './skewbUtils';
-import { CubeRotation } from './utils';
+import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options, nsCenterTrainerStateToSkewbRendererState } from './utils/skewbUtils';
+import { CubeRotation } from './utils/math';
 
 import correctSound from "./sounds/correct.mp3";
 import wrongSound from "./sounds/wrong.mp3";
 import { bindKeysToCenterPerm } from './keyboardShortcuts';
 import OptionsEditor from './OptionsEditor';
+import { nonWhiteColors } from './utils/color';
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -96,7 +97,7 @@ function NSCenterTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
                         ) as Record<keyof typeof CenterPerm, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCenterTrainerStateToSkewbState(nsCenterState, options)}/>
+                    <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)}/>
                 </div>
                 <div className="trainer-right">
                     {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (

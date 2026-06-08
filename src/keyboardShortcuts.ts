@@ -1,4 +1,4 @@
-import type { CenterPerm } from './skewbUtils'
+import type { CenterPerm } from './utils/skewbUtils'
 
 const keyboardShortcuts = {
     "KeyA": "Swirl",

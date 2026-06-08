@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { nsCornerOrientations, type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbState } from './skewbUtils';
-import { CubeRotation } from './utils';
+import { nsCornerOrientations, type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState } from './utils/skewbUtils';
+import { CubeRotation } from './utils/math';
 
 import correctSound from "./sounds/correct.mp3";
 import wrongSound from "./sounds/wrong.mp3";
@@ -85,7 +85,7 @@ function NSCornerTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CornerOrientation>).map((k) => CornerOrientation[k] === cornerOrientation ? [k, false] : [k, true])
                         ) as Record<keyof typeof CornerOrientation, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCornerTrainerStateToSkewbState(nsCornerState)}/>
+                    <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)}/>
                 </div>
                 <div className="trainer-right">
                     {(Object.keys(CornerOrientation) as Array<keyof typeof CornerOrientation>).map(k => (

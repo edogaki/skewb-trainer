@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { Options } from './skewbUtils';
+import type { Options } from './utils/skewbUtils';
 
 function OptionsEditor({options, setOptions}: {options: Options, setOptions: React.Dispatch<React.SetStateAction<Options>>}) {
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {

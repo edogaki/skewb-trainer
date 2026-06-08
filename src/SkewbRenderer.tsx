@@ -1,7 +1,7 @@
 import "./Skewb.css";
-import { polygons, type SkewbState } from './skewbUtils';
+import { polygons, type SkewbRendererState } from './utils/skewbRenderer';
 
-function SkewbRenderer({ state }: { state: SkewbState }) {
+function SkewbRenderer({ state }: { state: SkewbRendererState }) {
     return (
         <div className="skewb-box">
             <svg version="1.1"

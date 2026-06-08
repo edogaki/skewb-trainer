@@ -1,250 +1,16 @@
-import { multiply } from 'mathjs';
-import type { CubeRotation, SameLength } from './utils';
+import type { CubeRotation } from './math';
+import { Color, nonWhiteColors, rotateColor } from './color';
+import type { SkewbRendererState } from './skewbRenderer';
 
-const xsc = Math.sqrt(3) * 10;
-const ysc = 10;
-
-class Point {
-    x: number;
-    y: number;
-
-    constructor(x: number = 0, y: number = 0) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-class Polygon {
-    points: Point[];
-
-    constructor(pointsArr: [number, number][]) {
-        this.points = pointsArr.map(pArr => new Point(pArr[0], pArr[1]));
-    }
-    
-    translate(x: number, y: number) {
-        for (const point of this.points) {
-            point.x += x;
-            point.y += y;
-        }
-        return this;
-    }
-    
-    toSVGPointsString() {
-        return this.points.map(p => `${p.x} ${p.y}`).join(" ");
-    }
-}
-
-const polygons = [
-    // L FACE
-    new Polygon([
-        [xsc * 0, ysc * 0],
-        [xsc * 1, ysc * 1],
-        [xsc * 0, ysc * 2],
-    ]),
-    new Polygon([
-        [xsc * 1, ysc * 1],
-        [xsc * 2, ysc * 2],
-        [xsc * 2, ysc * 4],
-    ]),
-    new Polygon([
-        [xsc * 1, ysc * 5],
-        [xsc * 2, ysc * 4],
-        [xsc * 2, ysc * 6],
-    ]),
-    new Polygon([
-        [xsc * 0, ysc * 2],
-        [xsc * 1, ysc * 5],
-        [xsc * 0, ysc * 4],
-    ]),
-    new Polygon([
-        [xsc * 1, ysc * 1],
-        [xsc * 2, ysc * 4],
-        [xsc * 1, ysc * 5],
-        [xsc * 0, ysc * 2],
-    ]),
-    // F FACE
-    new Polygon([
-        [xsc * 2, ysc * 2],
-        [xsc * 3, ysc * 3],
-        [xsc * 2, ysc * 4],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 3],
-        [xsc * 4, ysc * 4],
-        [xsc * 4, ysc * 6],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 7],
-        [xsc * 4, ysc * 6],
-        [xsc * 4, ysc * 8],
-    ]),
-    new Polygon([
-        [xsc * 2, ysc * 4],
-        [xsc * 3, ysc * 7],
-        [xsc * 2, ysc * 6],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 3],
-        [xsc * 4, ysc * 6],
-        [xsc * 3, ysc * 7],
-        [xsc * 2, ysc * 4],
-    ]),
-    // D FACE
-    new Polygon([
-        [xsc * 2, ysc * 6],
-        [xsc * 3, ysc * 7],
-        [xsc * 2, ysc * 8],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 7],
-        [xsc * 4, ysc * 8],
-        [xsc * 4, ysc * 10],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 11],
-        [xsc * 4, ysc * 10],
-        [xsc * 4, ysc * 12],
-    ]),
-    new Polygon([
-        [xsc * 2, ysc * 8],
-        [xsc * 3, ysc * 11],
-        [xsc * 2, ysc * 10],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 7],
-        [xsc * 4, ysc * 10],
-        [xsc * 3, ysc * 11],
-        [xsc * 2, ysc * 8],
-    ]),
-    // U FACE
-    new Polygon([
-        [xsc * 4, ysc * 0],
-        [xsc * 5, ysc * 1],
-        [xsc * 3, ysc * 1],
-    ]),
-    new Polygon([
-        [xsc * 5, ysc * 1],
-        [xsc * 6, ysc * 2],
-        [xsc * 5, ysc * 3],
-    ]),
-    new Polygon([
-        [xsc * 5, ysc * 3],
-        [xsc * 4, ysc * 4],
-        [xsc * 3, ysc * 3],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 3],
-        [xsc * 2, ysc * 2],
-        [xsc * 3, ysc * 1],
-    ]),
-    new Polygon([
-        [xsc * 3, ysc * 1],
-        [xsc * 5, ysc * 1],
-        [xsc * 5, ysc * 3],
-        [xsc * 3, ysc * 3],
-    ]),
-    // R FACE
-    new Polygon([
-        [xsc * 4, ysc * 6],
-        [xsc * 4, ysc * 4],
-        [xsc * 5, ysc * 3],
-    ]),
-    new Polygon([
-        [xsc * 6, ysc * 2],
-        [xsc * 6, ysc * 4],
-        [xsc * 5, ysc * 3],
-    ]),
-    new Polygon([
-        [xsc * 6, ysc * 4],
-        [xsc * 6, ysc * 6],
-        [xsc * 5, ysc * 7],
-    ]),
-    new Polygon([
-        [xsc * 5, ysc * 7],
-        [xsc * 4, ysc * 8],
-        [xsc * 4, ysc * 6],
-    ]),
-    new Polygon([
-        [xsc * 5, ysc * 3],
-        [xsc * 6, ysc * 4],
-        [xsc * 5, ysc * 7],
-        [xsc * 4, ysc * 6],
-    ]),
-    // B FACE
-    new Polygon([
-        [xsc * 6, ysc * 4],
-        [xsc * 6, ysc * 2],
-        [xsc * 7, ysc * 1],
-    ]),
-    new Polygon([
-        [xsc * 8, ysc * 0],
-        [xsc * 8, ysc * 2],
-        [xsc * 7, ysc * 1],
-    ]),
-    new Polygon([
-        [xsc * 8, ysc * 2],
-        [xsc * 8, ysc * 4],
-        [xsc * 7, ysc * 5],
-    ]),
-    new Polygon([
-        [xsc * 7, ysc * 5],
-        [xsc * 6, ysc * 6],
-        [xsc * 6, ysc * 4],
-    ]),
-    new Polygon([
-        [xsc * 7, ysc * 1],
-        [xsc * 8, ysc * 2],
-        [xsc * 7, ysc * 5],
-        [xsc * 6, ysc * 4],
-    ]),
-] as const;
-
-for (const polygon of polygons) {
-    polygon.translate(10, 10);
-}
-
-const Color = {
-    Gray: "rgb(127, 127, 127)",
-    Orange: "rgb(255, 166, 0)",
-    Green: "rgb(0, 255, 0)",
-    Yellow: "rgb(255, 255, 0)",
-    White: "rgb(255, 255, 255)",
-    Red: "rgb(255, 0, 0)",
-    Blue: "rgb(0, 0, 255)",
-} as const;
-
-type Color = (typeof Color)[keyof typeof Color];
-
-const validColors: Color[] = [Color.Orange, Color.Green, Color.Yellow, Color.White, Color.Red, Color.Blue];
-
-const nonWhiteColors: Color[] = [Color.Red, Color.Green, Color.Orange, Color.Blue, Color.Yellow];
-
-type SkewbState = SameLength<typeof polygons, Color>;
-
-const stateLength = polygons.length;
-
-const colorAxes = {
-    [Color.White]:  [ 0, -1,  0],
-    [Color.Red]:    [-1,  0,  0],
-    [Color.Green]:  [ 0,  0,  1],
-    [Color.Orange]: [ 1,  0,  0],
-    [Color.Blue]:   [ 0,  0, -1],
-    [Color.Yellow]: [ 0,  1,  0],
-    [Color.Gray]: [0, 0, 0],
-}
-
-const axisToColor = Object.fromEntries(
-    Object.entries(colorAxes).map(([k, v]) => [v.join(","), k])
-) as Record<string, Color>;
 
 type NSCenterTrainerState = {
     centers: [Color, Color, Color],
     rotation: CubeRotation,
 }
 
-function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerState, options: Options) {
+function nsCenterTrainerStateToSkewbRendererState(nsCenterTrainerState: NSCenterTrainerState, options: Options) {
     const rotatedCenters = Object.fromEntries(
-        Object.values(Color).map((c) => [c, axisToColor[multiply(nsCenterTrainerState.rotation, colorAxes[c]).toArray().join(",")]])
+        Object.values(Color).map((c) => [c, rotateColor(c, nsCenterTrainerState.rotation)])
     ) as Record<Color, Color>;
     return [
         rotatedCenters[Color.Gray],
@@ -282,7 +48,7 @@ function nsCenterTrainerStateToSkewbState(nsCenterTrainerState: NSCenterTrainerS
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
-    ] as readonly Color[] as SkewbState;
+    ] as readonly Color[] as SkewbRendererState;
 }
 
 const CenterPerm = {
@@ -385,9 +151,9 @@ type NSCornerTrainerState = {
     rotation: CubeRotation,
 };
 
-function nsCornerTrainerStateToSkewbState(nsCornerTrainerState: NSCornerTrainerState) {
+function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCornerTrainerState) {
     const rotatedCenters = Object.fromEntries(
-        Object.values(Color).map((c) => [c, axisToColor[multiply(nsCornerTrainerState.rotation, colorAxes[c]).toArray().join(",")]])
+        Object.values(Color).map((c) => [c, rotateColor(c, nsCornerTrainerState.rotation)])
     ) as Record<Color, Color>;
     return [
         rotatedCenters[Color.Gray],
@@ -425,7 +191,7 @@ function nsCornerTrainerStateToSkewbState(nsCornerTrainerState: NSCornerTrainerS
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
-    ] as readonly Color[] as SkewbState;
+    ] as readonly Color[] as SkewbRendererState;
 }
 
 const CornerOrientation = {
@@ -459,19 +225,13 @@ function nsCornerTrainerStateToCornerOrientation(nsCornerTrainerState: NSCornerT
 }
 
 export {
-    polygons,
-    Color,
-    type SkewbState,
-    validColors,
-    nonWhiteColors,
-    stateLength,
     type NSCenterTrainerState,
-    nsCenterTrainerStateToSkewbState,
+    nsCenterTrainerStateToSkewbRendererState,
     CenterPerm,
     nsCenterTrainerStateToCenterPerm,
     type Options,
     type NSCornerTrainerState,
-    nsCornerTrainerStateToSkewbState,
+    nsCornerTrainerStateToSkewbRendererState,
     CornerOrientation,
     nsCornerOrientations,
     nsCornerTrainerStateToCornerOrientation,

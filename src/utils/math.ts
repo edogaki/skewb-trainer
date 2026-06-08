@@ -1,11 +1,5 @@
 import { matrix, multiply } from 'mathjs';
 
-type SameLength<T extends readonly unknown[], NewType> = {
-    [K in keyof T]: NewType;
-};
-
-type FixedLengthArray<T, N extends number> = T[] & { length: N };
-
 /**
  * Computes sin(90 degrees * n) avoiding weirdness of floats.
  * @param n integer or float. If n is float, defaults to Math.sin
@@ -94,8 +88,6 @@ const CubeRotation = [
 type CubeRotation = typeof CubeRotation[number];
 
 export {
-    type SameLength,
-    type FixedLengthArray,
     rotationMatrix,
     CubeRotation,
 }
