@@ -1,6 +1,7 @@
-import type { CubeRotation } from './math';
+import { CubeRotation } from './math';
 import { Color, nonWhiteColors, rotateColor } from './color';
 import type { SkewbRendererState } from './skewbRenderer';
+import { mod } from 'mathjs';
 
 
 type NSCenterTrainerState = {
@@ -147,7 +148,8 @@ interface Options {
 }
 
 type NSCornerTrainerState = {
-    corners: [Color, Color],
+    corners: [0|1|2, 0|1|2],
+    centers: [Color, Color],
     rotation: CubeRotation,
 };
 
@@ -155,6 +157,13 @@ function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCorner
     const rotatedCenters = Object.fromEntries(
         Object.values(Color).map((c) => [c, rotateColor(c, nsCornerTrainerState.rotation)])
     ) as Record<Color, Color>;
+    
+    const [co1, co2] = nsCornerTrainerState.corners
+    
+    const corner1Colors = [Color.Yellow, Color.Green, Color.Red];
+    const corner2Colors = [Color.Yellow, Color.Orange, Color.Green];
+    const corner3Colors = [Color.Yellow, Color.Blue, Color.Orange];
+
     return [
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
@@ -162,11 +171,11 @@ function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCorner
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
 
-        rotatedCenters[nsCornerTrainerState.corners[0]],
-        rotatedCenters[nsCornerTrainerState.corners[1]],
+        rotatedCenters[corner1Colors[mod(1 + co1, 3)]],
+        rotatedCenters[corner2Colors[mod(2 + co2, 3)]],
         rotatedCenters[Color.Green],
         rotatedCenters[Color.Green],
-        rotatedCenters[nonWhiteColors[Math.floor(Math.random() * nonWhiteColors.length)]],
+        rotatedCenters[nsCornerTrainerState.centers[0]],
 
         rotatedCenters[Color.White],
         rotatedCenters[Color.White],
@@ -175,16 +184,16 @@ function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCorner
         rotatedCenters[Color.White],
 
         rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
+        rotatedCenters[Color.Gray], // corner3Colors[mod(0 - co1, 3)]],
+        rotatedCenters[Color.Gray], // corner2Colors[mod(0 + co2, 3)]],
+        rotatedCenters[Color.Gray], // corner1Colors[mod(0 + co1, 3)]],
         rotatedCenters[Color.Gray],
 
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
-        rotatedCenters[Color.Gray],
+        rotatedCenters[corner2Colors[mod(1 + co2, 3)]],
+        rotatedCenters[corner3Colors[mod(2 - co1, 3)]],
+        rotatedCenters[Color.Orange],
+        rotatedCenters[Color.Orange],
+        rotatedCenters[nsCornerTrainerState.centers[1]],
 
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
@@ -209,19 +218,19 @@ const CornerOrientation = {
 type CornerOrientation = (typeof CornerOrientation)[keyof typeof CornerOrientation];
 
 const nsCornerOrientations = {
-    [[Color.Green, Color.Green].join("|")]: CornerOrientation.Pure,
-    [[Color.Green, Color.Yellow].join("|")]: CornerOrientation.PeanutLF,
-    [[Color.Green, Color.Orange].join("|")]: CornerOrientation.PeanutRB,
-    [[Color.Red, Color.Green].join("|")]: CornerOrientation.PeanutBL,
-    [[Color.Red, Color.Yellow].join("|")]: CornerOrientation.PiL,
-    [[Color.Red, Color.Orange].join("|")]: CornerOrientation.PiB,
-    [[Color.Yellow, Color.Green].join("|")]: CornerOrientation.PeanutFR,
-    [[Color.Yellow, Color.Yellow].join("|")]: CornerOrientation.PiF,
-    [[Color.Yellow, Color.Orange].join("|")]: CornerOrientation.PiR,
+    "0|0": CornerOrientation.Pure,
+    "0|1": CornerOrientation.PeanutLF,
+    "0|2": CornerOrientation.PeanutRB,
+    "1|0": CornerOrientation.PeanutBL,
+    "1|1": CornerOrientation.PiL,
+    "1|2": CornerOrientation.PiB,
+    "2|0": CornerOrientation.PeanutFR,
+    "2|1": CornerOrientation.PiF,
+    "2|2": CornerOrientation.PiR,
 } as const;
 
 function nsCornerTrainerStateToCornerOrientation(nsCornerTrainerState: NSCornerTrainerState) {
-    return nsCornerOrientations[nsCornerTrainerState.corners.join("|")];
+    return nsCornerOrientations[nsCornerTrainerState.corners.join("|") as (keyof typeof nsCornerOrientations)];
 }
 
 export {

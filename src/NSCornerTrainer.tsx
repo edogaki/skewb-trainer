@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { nsCornerOrientations, type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState } from './utils/skewbUtils';
-import { CubeRotation } from './utils/math';
+import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState } from './utils/skewbUtils';
+import { CubeRotation, shuffleArray } from './utils/math';
 import { Sound } from './utils/sounds';
+import { nonWhiteColors } from './utils/color';
 
 function generateNSCorners() {
-    const corners = Object.keys(nsCornerOrientations)[Math.floor(Math.random() * Object.keys(nsCornerOrientations).length)].split("|")
+    const corners = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)]
+    const centers = nonWhiteColors.slice();
+    shuffleArray(centers);
     const randomRotation = CubeRotation[Math.floor(Math.random() * CubeRotation.length)];
     const state: NSCornerTrainerState = {
         corners: corners,
+        centers: centers.slice(0, 2),
         rotation: randomRotation,
     } as NSCornerTrainerState;
     return state;
