@@ -7,7 +7,7 @@
 }
 
 .trainer-right {
-    flex: 1 0 130px;
+    flex: 0 0 130px;
 }
 
 .skewb-box {
@@ -16,9 +16,47 @@
 }
 
 button {
+    display: block;
     padding: 5px;
+    cursor: pointer;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
 
 button.error {
     color: red;
+    background-color: rgb(255, 228, 233);
+}
+
+.pi-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.pi-buttons button {
+    display: block;
+    width: calc(50% - 20px);
+    aspect-ratio: 1;
+    cursor: pointer;
+}
+
+.peanut-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.peanut-buttons div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.peanut-buttons button {
+    display: block;
+    aspect-ratio: 1;
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 5px;
 }
