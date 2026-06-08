@@ -3,11 +3,10 @@ import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options, nsCenterTrainerStateToSkewbRendererState } from './utils/skewbUtils';
 import { CubeRotation } from './utils/math';
 
-import correctSound from "./sounds/correct.mp3";
-import wrongSound from "./sounds/wrong.mp3";
 import { bindKeysToCenterPerm } from './keyboardShortcuts';
 import OptionsEditor from './OptionsEditor';
 import { nonWhiteColors } from './utils/color';
+import { Sound } from './utils/sounds';
 
 function shuffleArray(array: unknown[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -26,15 +25,6 @@ function generateNSCenters() {
     } as NSCenterTrainerState
     return state;
 }
-
-const correctAudio = new Audio(correctSound);
-const wrongAudio = new Audio(wrongSound);
-
-function play(audio: HTMLAudioElement) {
-    const clone = audio.cloneNode() as HTMLAudioElement;
-    return clone.play();
-}
-
 
 function NSCenterTrainer() {
     const [options, setOptions] = useState<Options>({
@@ -60,14 +50,14 @@ function NSCenterTrainer() {
     async function selectCenterPerm(k: keyof typeof CenterPerm) {
         console.log({ k, centerPerm });
         if (CenterPerm[k] === centerPerm) {
-            play(correctAudio);
+            Sound.correct.play();
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setCorrectQuestions((q) => q + 1)
                 setTotalQuestions((q) => q + 1)
             }
             newState();
         } else {
-            play(wrongAudio);
+            Sound.wrong.play();
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setTotalQuestions((q) => q + 1)
             }
@@ -89,7 +79,7 @@ function NSCenterTrainer() {
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
                     </div>
                     <button onClick={async () => {
-                        play(wrongAudio);
+                        Sound.wrong.play();
                         if (Object.values(isErrorButton).every((v) => v === false)) {
                             setTotalQuestions((q) => q + 1);
                         }
