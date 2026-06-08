@@ -2,9 +2,7 @@ import { useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { nsCornerOrientations, type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState } from './utils/skewbUtils';
 import { CubeRotation } from './utils/math';
-
-import correctSound from "./sounds/correct.mp3";
-import wrongSound from "./sounds/wrong.mp3";
+import { Sound } from './utils/sounds';
 
 function generateNSCorners() {
     const corners = Object.keys(nsCornerOrientations)[Math.floor(Math.random() * Object.keys(nsCornerOrientations).length)].split("|")
@@ -14,19 +12,6 @@ function generateNSCorners() {
         rotation: randomRotation,
     } as NSCornerTrainerState;
     return state;
-}
-
-const correctAudio = new Audio(correctSound);
-correctAudio.load();
-const wrongAudio = new Audio(wrongSound);
-wrongAudio.load();
-
-function play(audio: HTMLAudioElement) {
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.currentTime = 0;
-    }
 }
 
 
@@ -51,14 +36,14 @@ function NSCornerTrainer() {
 
     async function selectCornerOrientation(k: keyof typeof CornerOrientation) {
         if (CornerOrientation[k] === cornerOrientation) {
-            play(correctAudio);
+            Sound.correct.play();
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setCorrectQuestions((q) => q + 1)
                 setTotalQuestions((q) => q + 1)
             }
             newState();
         } else {
-            play(wrongAudio);
+            Sound.wrong.play();
             if (Object.values(isErrorButton).every((v) => v === false)) {
                 setTotalQuestions((q) => q + 1)
             }
@@ -82,7 +67,7 @@ function NSCornerTrainer() {
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
                     </div>
                     <button onClick={async () => {
-                        play(wrongAudio);
+                        Sound.wrong.play();
                         if (Object.values(isErrorButton).every((v) => v === false)) {
                             setTotalQuestions((q) => q + 1);
                         }
