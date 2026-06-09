@@ -35,7 +35,8 @@ class Polygon {
 }
 const CubeOrientation = {
     UpDown: "Up-down Orientation",
-    Sideways: "Sideways Orientation",
+    Sideways: "Sideways Orientation 1",
+    Sideways2: "Sideways Orientation 2",
 } as const;
 type CubeOrientation = (typeof CubeOrientation)[keyof typeof CubeOrientation];
 
@@ -367,6 +368,170 @@ const polygons = {
             [xsc * 6, ysc * 8],
             [xsc * 5, ysc * 11],
             [xsc * 4, ysc * 10],
+        ]),
+    ].map(p => p.translate(10, 21)),
+    [CubeOrientation.Sideways2]: [
+        // L FACE
+        new Polygon([
+            [xsc * 4, ysc * 0],
+            [xsc * 5, ysc * 1],
+            [xsc * 3, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 1],
+            [xsc * 6, ysc * 2],
+            [xsc * 5, ysc * 3],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 3],
+            [xsc * 4, ysc * 4],
+            [xsc * 3, ysc * 3],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 3],
+            [xsc * 2, ysc * 2],
+            [xsc * 3, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 1],
+            [xsc * 5, ysc * 1],
+            [xsc * 5, ysc * 3],
+            [xsc * 3, ysc * 3],
+        ]),
+        // F FACE
+        new Polygon([
+            [xsc * 6, ysc * 2],
+            [xsc * 6, ysc * 4],
+            [xsc * 5, ysc * 3],
+        ]),
+        new Polygon([
+            [xsc * 6, ysc * 4],
+            [xsc * 6, ysc * 6],
+            [xsc * 5, ysc * 7],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 7],
+            [xsc * 4, ysc * 8],
+            [xsc * 4, ysc * 6],
+        ]),
+        new Polygon([
+            [xsc * 4, ysc * 6],
+            [xsc * 4, ysc * 4],
+            [xsc * 5, ysc * 3],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 3],
+            [xsc * 6, ysc * 4],
+            [xsc * 5, ysc * 7],
+            [xsc * 4, ysc * 6],
+        ]),
+        // D FACE
+        new Polygon([
+            [xsc * 2, ysc * 2],
+            [xsc * 3, ysc * 3],
+            [xsc * 2, ysc * 4],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 3],
+            [xsc * 4, ysc * 4],
+            [xsc * 4, ysc * 6],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 7],
+            [xsc * 4, ysc * 6],
+            [xsc * 4, ysc * 8],
+        ]),
+        new Polygon([
+            [xsc * 2, ysc * 4],
+            [xsc * 3, ysc * 7],
+            [xsc * 2, ysc * 6],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 3],
+            [xsc * 4, ysc * 6],
+            [xsc * 3, ysc * 7],
+            [xsc * 2, ysc * 4],
+        ]),
+        // U FACE
+        new Polygon([
+            [xsc * 8, ysc * 2],
+            [xsc * 8, ysc * 4],
+            [xsc * 7, ysc * 5],
+        ]),
+        new Polygon([
+            [xsc * 7, ysc * 5],
+            [xsc * 6, ysc * 6],
+            [xsc * 6, ysc * 4],
+        ]),
+        new Polygon([
+            [xsc * 6, ysc * 4],
+            [xsc * 6, ysc * 2],
+            [xsc * 7, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 8, ysc * 0],
+            [xsc * 8, ysc * 2],
+            [xsc * 7, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 7, ysc * 1],
+            [xsc * 8, ysc * 2],
+            [xsc * 7, ysc * 5],
+            [xsc * 6, ysc * 4],
+        ]),
+        // R FACE
+        new Polygon([
+            [xsc * 6, ysc * 6],
+            [xsc * 6, ysc * 8],
+            [xsc * 5, ysc * 7],
+        ]),
+        new Polygon([
+            [xsc * 6, ysc * 8],
+            [xsc * 6, ysc * 10],
+            [xsc * 5, ysc * 11],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 11],
+            [xsc * 4, ysc * 12],
+            [xsc * 4, ysc * 10],
+        ]),
+        new Polygon([
+            [xsc * 4, ysc * 10],
+            [xsc * 4, ysc * 8],
+            [xsc * 5, ysc * 7],
+        ]),
+        new Polygon([
+            [xsc * 5, ysc * 7],
+            [xsc * 6, ysc * 8],
+            [xsc * 5, ysc * 11],
+            [xsc * 4, ysc * 10],
+        ]),
+        // B FACE
+        new Polygon([
+            [xsc * 2, ysc * -2],
+            [xsc * 3, ysc * -1],
+            [xsc * 1, ysc * -1],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * -1],
+            [xsc * 4, ysc * 0],
+            [xsc * 3, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 3, ysc * 1],
+            [xsc * 2, ysc * 2],
+            [xsc * 1, ysc * 1],
+        ]),
+        new Polygon([
+            [xsc * 1, ysc * 1],
+            [xsc * 0, ysc * 0],
+            [xsc * 1, ysc * -1],
+        ]),
+        new Polygon([
+            [xsc * 1, ysc * -1],
+            [xsc * 3, ysc * -1],
+            [xsc * 3, ysc * 1],
+            [xsc * 1, ysc * 1],
         ]),
     ].map(p => p.translate(10, 21))
 } as const as Record<CubeOrientation, FixedLengthArray<Polygon, 30>>;
