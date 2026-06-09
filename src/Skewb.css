@@ -61,35 +61,45 @@ button.error {
     margin-bottom: 5px;
 }
 
-.trainer-right.sideways .peanut-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.trainer-right.sideways .peanut-buttons button {
-    display: block;
-    width: calc(50% - 20px);
-    aspect-ratio: 1;
-    cursor: pointer;
-}
-
 .trainer-right.sideways .pi-buttons {
     display: flex;
     gap: 5px;
 }
 
-.trainer-right.sideways .pi-buttons div {
+.trainer-right.sideways .pi-buttons > div {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.trainer-right.sideways .pi-buttons button {
+.trainer-right.sideways .pi-buttons > .side-buttons {
+    gap: 10px;
+}
+
+.trainer-right.sideways .pi-buttons > div > button {
     display: block;
     aspect-ratio: 1;
     width: 100%;
     cursor: pointer;
     margin-bottom: 5px;
+}
+
+.trainer-right.sideways .peanut-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.trainer-right.sideways .peanut-buttons div {
+    width: calc(50% - 20px);
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.trainer-right.sideways .peanut-buttons button {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
 }
