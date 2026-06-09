@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState, type NSCornerTrainerOptions } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
@@ -36,6 +36,8 @@ function NSCornerTrainer() {
 
     const [isErrorButton, setIsErrorButton] = useState(isErrorButtonInitialState);
     
+    const [answeredCorrectButton, setAnsweredCorrectButton] = useState<keyof typeof CornerOrientation | null>(null);
+    
     const [correctQuestions, setCorrectQuestions] = useState(0);
     const [totalQuestions, setTotalQuestions] = useState(0);
     
@@ -43,6 +45,8 @@ function NSCornerTrainer() {
         setNSCornerState(generateNSCorners());
         setIsErrorButton(isErrorButtonInitialState)
     }
+    
+    console.log(answeredCorrectButton)
 
     async function selectCornerOrientation(k: keyof typeof CornerOrientation) {
         if (CornerOrientation[k] === cornerOrientation) {
@@ -51,6 +55,7 @@ function NSCornerTrainer() {
                 setCorrectQuestions((q) => q + 1)
                 setTotalQuestions((q) => q + 1)
             }
+            setAnsweredCorrectButton(k);
             newState();
         } else {
             Sound.wrong.play();
@@ -58,6 +63,7 @@ function NSCornerTrainer() {
                 setTotalQuestions((q) => q + 1)
             }
             setIsErrorButton((obj) => { return { ...obj, [k]: true } });
+            setAnsweredCorrectButton(null);
         }
     }
 
@@ -67,6 +73,15 @@ function NSCornerTrainer() {
         return cleanupFunc;
     }, [centerPerm, isErrorButton])
     */
+    
+    useEffect(() => {
+        if (!answeredCorrectButton)
+            return;
+        const id = setTimeout(() => {
+            setAnsweredCorrectButton(null);
+        }, 300);
+        return () => clearTimeout(id);
+    }, [answeredCorrectButton]);
 
     return (
         <>
@@ -84,6 +99,7 @@ function NSCornerTrainer() {
                         setIsErrorButton((obj) => { return Object.fromEntries(
                             (Object.keys(obj) as Array<keyof typeof CornerOrientation>).map((k) => CornerOrientation[k] === cornerOrientation ? [k, false] : [k, true])
                         ) as Record<keyof typeof CornerOrientation, boolean> });
+                        setAnsweredCorrectButton(null);
                     }}>I give up</button>
                     <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)} options={options.renderer}/>
                 </div>
@@ -92,25 +108,25 @@ function NSCornerTrainer() {
                         <p>Pi</p>
                         <div className="pi-buttons">
                             <button
-                                className={`${isErrorButton["PiL"] && "error"} `}
+                                className={`${isErrorButton["PiL"] ? "error" : answeredCorrectButton === "PiL" ? "correct-flash" : ""}`}
                                 onClick={() => selectCornerOrientation("PiL")}
                             >
                                 ↖️
                             </button>
                             <button
-                                className={`${isErrorButton["PiB"] && "error"} `}
+                                className={`${isErrorButton["PiB"] ? "error" : answeredCorrectButton === "PiB" ? "correct-flash" : ""}`}
                                 onClick={() => selectCornerOrientation("PiB")}
                             >
                                 ↗️
                             </button>
                             <button
-                                className={`${isErrorButton["PiF"] && "error"} `}
+                                className={`${isErrorButton["PiF"] ? "error" : answeredCorrectButton === "PiF" ? "correct-flash" : ""}`}
                                 onClick={() => selectCornerOrientation("PiF")}
                             >
                                 ↙️
                             </button>
                             <button
-                                className={`${isErrorButton["PiR"] && "error"} `}
+                                className={`${isErrorButton["PiR"] ? "error" : answeredCorrectButton === "PiR" ? "correct-flash" : ""}`}
                                 onClick={() => selectCornerOrientation("PiR")}
                             >
                                 ↘️
@@ -120,7 +136,7 @@ function NSCornerTrainer() {
                         <div className="peanut-buttons">
                             <div>
                                 <button
-                                    className={`${isErrorButton["PeanutLF"] && "error"} `}
+                                    className={`${isErrorButton["PeanutLF"] ? "error" : answeredCorrectButton === "PeanutLF" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutLF")}
                                 >
                                     ⬅️
@@ -128,13 +144,13 @@ function NSCornerTrainer() {
                             </div>
                             <div>
                                 <button
-                                    className={`${isErrorButton["PeanutBL"] && "error"} `}
+                                    className={`${isErrorButton["PeanutBL"] ? "error" : answeredCorrectButton === "PeanutBL" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutBL")}
                                 >
                                     ⬆️
                                 </button>
                                 <button
-                                    className={`${isErrorButton["PeanutFR"] && "error"} `}
+                                    className={`${isErrorButton["PeanutFR"] ? "error" : answeredCorrectButton === "PeanutFR" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutFR")}
                                 >
                                     ⬇️
@@ -142,7 +158,7 @@ function NSCornerTrainer() {
                             </div>
                             <div>
                                 <button
-                                    className={`${isErrorButton["PeanutRB"] && "error"} `}
+                                    className={`${isErrorButton["PeanutRB"] ? "error" : answeredCorrectButton === "PeanutRB" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutRB")}
                                 >
                                     ➡️
@@ -151,7 +167,7 @@ function NSCornerTrainer() {
                         </div>
                         <br />
                         <button
-                            className={`${isErrorButton["Pure"] && "error"} `}
+                            className={`${isErrorButton["Pure"] ? "error" : answeredCorrectButton === "Pure" ? "correct-flash" : ""}`}
                             onClick={() => selectCornerOrientation("Pure")}
                         >
                             Pure/Solved
@@ -164,7 +180,7 @@ function NSCornerTrainer() {
                         <div className="pi-buttons">
                             <div className="side-buttons">
                                 <button
-                                    className={`${isErrorButton["PiL"] && "error"} `}
+                                    className={`${isErrorButton["PiL"] ? "error" : answeredCorrectButton === "PiL" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PiL")}
                                 >
                                     ⬅️
@@ -173,13 +189,13 @@ function NSCornerTrainer() {
                             </div>
                             <div>
                                 <button
-                                    className={`${isErrorButton["PiF"] && "error"} `}
+                                    className={`${isErrorButton["PiF"] ? "error" : answeredCorrectButton === "PiF" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PiF")}
                                 >
                                     ⬆️
                                 </button>
                                 <button
-                                    className={`${isErrorButton["PiB"] && "error"} `}
+                                    className={`${isErrorButton["PiB"] ? "error" : answeredCorrectButton === "PiB" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PiB")}
                                 >
                                     ⬇️
@@ -188,7 +204,7 @@ function NSCornerTrainer() {
                             <div className="side-buttons">
                                 <div className="empty-div"/>
                                 <button
-                                    className={`${isErrorButton["PiR"] && "error"} `}
+                                    className={`${isErrorButton["PiR"] ? "error" : answeredCorrectButton === "PiR" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PiR")}
                                 >
                                     ➡️
@@ -199,13 +215,13 @@ function NSCornerTrainer() {
                         <div className="peanut-buttons">
                             <div className="left-buttons">
                                 <button
-                                    className={`${isErrorButton["PeanutLF"] && "error"} `}
+                                    className={`${isErrorButton["PeanutLF"] ? "error" : answeredCorrectButton === "PeanutLF" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutLF")}
                                 >
                                     ↖️
                                 </button>
                                 <button
-                                    className={`${isErrorButton["PeanutBL"] && "error"} `}
+                                    className={`${isErrorButton["PeanutBL"] ? "error" : answeredCorrectButton === "PeanutBL" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutBL")}
                                 >
                                     ↙️
@@ -215,13 +231,13 @@ function NSCornerTrainer() {
                             <div className="right-buttons">
                                 <div className="empty-div"/>
                                 <button
-                                    className={`${isErrorButton["PeanutFR"] && "error"} `}
+                                    className={`${isErrorButton["PeanutFR"] ? "error" : answeredCorrectButton === "PeanutFR" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutFR")}
                                 >
                                     ↗️
                                 </button>
                                 <button
-                                    className={`${isErrorButton["PeanutRB"] && "error"} `}
+                                    className={`${isErrorButton["PeanutRB"] ? "error" : answeredCorrectButton === "PeanutRB" ? "correct-flash" : ""}`}
                                     onClick={() => selectCornerOrientation("PeanutRB")}
                                 >
                                     ↘️
@@ -230,7 +246,7 @@ function NSCornerTrainer() {
                         </div>
                         <br />
                         <button
-                            className={`${isErrorButton["Pure"] && "error"} `}
+                            className={`${isErrorButton["Pure"] ? "error" : answeredCorrectButton === "Pure" ? "correct-flash" : ""}`}
                             onClick={() => selectCornerOrientation("Pure")}
                         >
                             Pure/Solved

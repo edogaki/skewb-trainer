@@ -28,6 +28,11 @@ button.error {
     background-color: rgb(255, 228, 233);
 }
 
+button.correct-flash {
+    color: rgb(19, 80, 0);
+    background-color: rgb(201, 255, 196);
+}
+
 .trainer-right.up-down .pi-buttons {
     display: flex;
     flex-wrap: wrap;
