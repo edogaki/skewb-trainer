@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState } from './utils/skewbUtils';
+import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState, type NSCornerTrainerOptions } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
 import { Sound } from './utils/sounds';
 import { nonWhiteColors } from './utils/color';
+import { CubeOrientation } from './utils/skewbRenderer';
+import NSCornerTrainerOptionsEditor from './NSCornerTrainerOptionsEditor';
 
 function generateNSCorners() {
     const corners = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)]
@@ -20,6 +22,11 @@ function generateNSCorners() {
 
 
 function NSCornerTrainer() {
+    const [options, setOptions] = useState<NSCornerTrainerOptions>({
+        renderer: {
+            cubeOrientation: CubeOrientation.UpDown,
+        },
+    });
     const [nsCornerState, setNSCornerState] = useState(generateNSCorners());
     const cornerOrientation = nsCornerTrainerStateToCornerOrientation(nsCornerState);
     console.log(nsCornerState);
@@ -79,7 +86,7 @@ function NSCornerTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CornerOrientation>).map((k) => CornerOrientation[k] === cornerOrientation ? [k, false] : [k, true])
                         ) as Record<keyof typeof CornerOrientation, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)} options={null}/>
+                    <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)} options={options.renderer}/>
                 </div>
                 <div className="trainer-right">
                     <p>Pi</p>
@@ -151,6 +158,7 @@ function NSCornerTrainer() {
                     </button>
                 </div>
             </div>
+            <NSCornerTrainerOptionsEditor options={options} setOptions={setOptions} />
         </>
     )
 }

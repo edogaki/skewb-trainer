@@ -153,6 +153,10 @@ type NSCornerTrainerState = {
     rotation: CubeRotation,
 };
 
+interface NSCornerTrainerOptions {
+    renderer: RendererOptions,
+}
+
 function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCornerTrainerState) {
     const rotatedCenters = Object.fromEntries(
         Object.values(Color).map((c) => [c, rotateColor(c, nsCornerTrainerState.rotation)])
@@ -240,6 +244,7 @@ export {
     CenterPerm,
     nsCenterTrainerStateToCenterPerm,
     type NSCornerTrainerState,
+    type NSCornerTrainerOptions,
     nsCornerTrainerStateToSkewbRendererState,
     CornerOrientation,
     nsCornerOrientations,
