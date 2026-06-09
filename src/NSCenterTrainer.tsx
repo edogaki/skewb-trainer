@@ -36,6 +36,8 @@ function NSCenterTrainer() {
 
     const [isErrorButton, setIsErrorButton] = useState(isErrorButtonInitialState);
     
+    const [answeredCorrectButton, setAnsweredCorrectButton] = useState<keyof typeof CenterPerm | null>(null);
+    
     const [correctQuestions, setCorrectQuestions] = useState(0);
     const [totalQuestions, setTotalQuestions] = useState(0);
     
@@ -51,6 +53,7 @@ function NSCenterTrainer() {
                 setCorrectQuestions((q) => q + 1)
                 setTotalQuestions((q) => q + 1)
             }
+            setAnsweredCorrectButton(k);
             newState();
         } else {
             Sound.wrong.play();
@@ -58,6 +61,7 @@ function NSCenterTrainer() {
                 setTotalQuestions((q) => q + 1)
             }
             setIsErrorButton((obj) => { return { ...obj, [k]: true } });
+            setAnsweredCorrectButton(null);
         }
     }
 
@@ -65,6 +69,15 @@ function NSCenterTrainer() {
         const cleanupFunc = bindKeysToCenterPerm(selectCenterPerm);
         return cleanupFunc;
     }, [centerPerm, isErrorButton])
+    
+    useEffect(() => {
+        if (!answeredCorrectButton)
+            return;
+        const id = setTimeout(() => {
+            setAnsweredCorrectButton(null);
+        }, 300);
+        return () => clearTimeout(id);
+    }, [answeredCorrectButton]);
 
     return (
         <>
@@ -82,6 +95,7 @@ function NSCenterTrainer() {
                         setIsErrorButton((obj) => { return Object.fromEntries(
                             (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
                         ) as Record<keyof typeof CenterPerm, boolean> });
+                        setAnsweredCorrectButton(null);
                     }}>I give up</button>
                     <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)} options={options.renderer}/>
                 </div>
@@ -89,7 +103,7 @@ function NSCenterTrainer() {
                     {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
                         <div key={k}>
                             <button
-                                className={`${isErrorButton[k] && "error"} `}
+                                className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
                                 onClick={() => selectCenterPerm(k)}
                             >
                                 {CenterPerm[k]}
