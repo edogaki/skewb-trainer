@@ -6,7 +6,7 @@ function NSCornerTrainerOptionsEditor({options, setOptions}: {options: NSCornerT
     return (
         <form>
             <h3>Options</h3>
-            {(Object.keys(CubeOrientation) as (keyof typeof CubeOrientation)[]).map((k) => (
+            {(["UpDown", "Sideways"] as (keyof typeof CubeOrientation)[]).map((k) => (
                 <span key={k}>
                     <input
                         id={`nsCornerTrainer-${k}`}

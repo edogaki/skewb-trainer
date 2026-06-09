@@ -45,7 +45,6 @@ function NSCenterTrainer() {
     }
 
     async function selectCenterPerm(k: keyof typeof CenterPerm) {
-        console.log({ k, centerPerm });
         if (CenterPerm[k] === centerPerm) {
             Sound.correct.play();
             if (Object.values(isErrorButton).every((v) => v === false)) {
@@ -70,7 +69,7 @@ function NSCenterTrainer() {
     return (
         <>
             <h2>NS Center Trainer</h2>
-            <div className="trainer">
+            <div className="trainer center">
                 <div className="trainer-left">
                     <div>
                         {`${correctQuestions}/${totalQuestions} answered correctly`}
