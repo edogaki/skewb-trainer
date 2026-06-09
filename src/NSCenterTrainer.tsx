@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
-import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type Options, nsCenterTrainerStateToSkewbRendererState } from './utils/skewbUtils';
+import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type NSCenterTrainerOptions, nsCenterTrainerStateToSkewbRendererState } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
 
 import { bindKeysToCenterPerm } from './keyboardShortcuts';
-import OptionsEditor from './OptionsEditor';
+import OptionsEditor from './NSCenterTrainerOptionsEditor';
 import { nonWhiteColors } from './utils/color';
 import { Sound } from './utils/sounds';
 import { CubeOrientation } from './utils/skewbRenderer';
@@ -21,7 +21,7 @@ function generateNSCenters() {
 }
 
 function NSCenterTrainer() {
-    const [options, setOptions] = useState<Options>({
+    const [options, setOptions] = useState<NSCenterTrainerOptions>({
         showRightCornerColors: true,
         renderer: {
             cubeOrientation: CubeOrientation.UpDown,

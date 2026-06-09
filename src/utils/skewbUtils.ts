@@ -3,13 +3,17 @@ import { Color, rotateColor } from './color';
 import type { RendererOptions, SkewbRendererState } from './skewbRenderer';
 import { mod } from 'mathjs';
 
-
 type NSCenterTrainerState = {
     centers: [Color, Color, Color],
     rotation: CubeRotation,
 }
 
-function nsCenterTrainerStateToSkewbRendererState(nsCenterTrainerState: NSCenterTrainerState, options: Options) {
+interface NSCenterTrainerOptions {
+    showRightCornerColors: boolean;
+    renderer: RendererOptions;
+}
+
+function nsCenterTrainerStateToSkewbRendererState(nsCenterTrainerState: NSCenterTrainerState, options: NSCenterTrainerOptions) {
     const rotatedCenters = Object.fromEntries(
         Object.values(Color).map((c) => [c, rotateColor(c, nsCenterTrainerState.rotation)])
     ) as Record<Color, Color>;
@@ -143,11 +147,6 @@ function nsCenterTrainerStateToCenterPerm(nsCenterTrainerState: NSCenterTrainerS
 
 // const nonWhiteColors: Color[] = [Color.Red, Color.Green, Color.Orange, Color.Blue, Color.Yellow];
 
-interface Options {
-    showRightCornerColors: boolean;
-    renderer: RendererOptions;
-}
-
 type NSCornerTrainerState = {
     corners: [0|1|2, 0|1|2],
     centers: [Color, Color],
@@ -236,10 +235,10 @@ function nsCornerTrainerStateToCornerOrientation(nsCornerTrainerState: NSCornerT
 
 export {
     type NSCenterTrainerState,
+    type NSCenterTrainerOptions,
     nsCenterTrainerStateToSkewbRendererState,
     CenterPerm,
     nsCenterTrainerStateToCenterPerm,
-    type Options,
     type NSCornerTrainerState,
     nsCornerTrainerStateToSkewbRendererState,
     CornerOrientation,
