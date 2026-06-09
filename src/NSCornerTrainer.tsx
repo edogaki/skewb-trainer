@@ -29,7 +29,6 @@ function NSCornerTrainer() {
     });
     const [nsCornerState, setNSCornerState] = useState(generateNSCorners());
     const cornerOrientation = nsCornerTrainerStateToCornerOrientation(nsCornerState);
-    console.log(nsCornerState);
 
     const isErrorButtonInitialState = Object.fromEntries(
         Object.keys(CornerOrientation).map(k => [k, false])
@@ -158,7 +157,9 @@ function NSCornerTrainer() {
                     </button>
                 </div>
             </div>
+            {/*
             <NSCornerTrainerOptionsEditor options={options} setOptions={setOptions} />
+            */}
         </>
     )
 }
