@@ -7,6 +7,7 @@ import { bindKeysToCenterPerm } from './keyboardShortcuts';
 import OptionsEditor from './OptionsEditor';
 import { nonWhiteColors } from './utils/color';
 import { Sound } from './utils/sounds';
+import { CubeOrientation } from './utils/skewbRenderer';
 
 function generateNSCenters() {
     const centers = nonWhiteColors.slice();
@@ -22,6 +23,9 @@ function generateNSCenters() {
 function NSCenterTrainer() {
     const [options, setOptions] = useState<Options>({
         showRightCornerColors: true,
+        renderer: {
+            cubeOrientation: CubeOrientation.UpDown,
+        },
     });
     const [nsCenterState, setNSCenterState] = useState(generateNSCenters());
     const centerPerm = nsCenterTrainerStateToCenterPerm(nsCenterState);
@@ -80,7 +84,7 @@ function NSCenterTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
                         ) as Record<keyof typeof CenterPerm, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)}/>
+                    <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)} options={options.renderer}/>
                 </div>
                 <div className="trainer-right">
                     {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (

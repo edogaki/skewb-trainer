@@ -79,7 +79,7 @@ function NSCornerTrainer() {
                             (Object.keys(obj) as Array<keyof typeof CornerOrientation>).map((k) => CornerOrientation[k] === cornerOrientation ? [k, false] : [k, true])
                         ) as Record<keyof typeof CornerOrientation, boolean> });
                     }}>I give up</button>
-                    <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)}/>
+                    <SkewbRenderer state={nsCornerTrainerStateToSkewbRendererState(nsCornerState)} options={null}/>
                 </div>
                 <div className="trainer-right">
                     <p>Pi</p>
