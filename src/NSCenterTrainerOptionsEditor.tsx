@@ -1,8 +1,8 @@
 import type React from 'react';
-import { type Options } from './utils/skewbUtils';
+import { type NSCenterTrainerOptions } from './utils/skewbUtils';
 import { CubeOrientation } from './utils/skewbRenderer';
 
-function OptionsEditor({options, setOptions}: {options: Options, setOptions: React.Dispatch<React.SetStateAction<Options>>}) {
+function NSCenterTrainerOptionsEditor({options, setOptions}: {options: NSCenterTrainerOptions, setOptions: React.Dispatch<React.SetStateAction<NSCenterTrainerOptions>>}) {
     return (
         <form>
             <h3>Options</h3>
@@ -46,4 +46,4 @@ function OptionsEditor({options, setOptions}: {options: Options, setOptions: Rea
     );
 }
 
-export default OptionsEditor;
+export default NSCenterTrainerOptionsEditor;
