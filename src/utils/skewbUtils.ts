@@ -1,6 +1,6 @@
 import { CubeRotation } from './math';
 import { Color, rotateColor } from './color';
-import type { SkewbRendererState } from './skewbRenderer';
+import type { RendererOptions, SkewbRendererState } from './skewbRenderer';
 import { mod } from 'mathjs';
 
 
@@ -145,6 +145,7 @@ function nsCenterTrainerStateToCenterPerm(nsCenterTrainerState: NSCenterTrainerS
 
 interface Options {
     showRightCornerColors: boolean;
+    renderer: RendererOptions;
 }
 
 type NSCornerTrainerState = {
@@ -200,7 +201,7 @@ function nsCornerTrainerStateToSkewbRendererState(nsCornerTrainerState: NSCorner
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
         rotatedCenters[Color.Gray],
-    ] as readonly Color[] as SkewbRendererState;
+    ] as SkewbRendererState;
 }
 
 const CornerOrientation = {
