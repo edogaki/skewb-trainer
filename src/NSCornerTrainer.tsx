@@ -162,13 +162,14 @@ function NSCornerTrainer() {
                     <div className="trainer-right sideways">
                         <p>Pi</p>
                         <div className="pi-buttons">
-                            <div>
+                            <div className="side-buttons">
                                 <button
                                     className={`${isErrorButton["PiL"] && "error"} `}
                                     onClick={() => selectCornerOrientation("PiL")}
                                 >
                                     ⬅️
                                 </button>
+                                <div className="empty-div"/>
                             </div>
                             <div>
                                 <button
@@ -184,7 +185,8 @@ function NSCornerTrainer() {
                                     ⬇️
                                 </button>
                             </div>
-                            <div>
+                            <div className="side-buttons">
+                                <div className="empty-div"/>
                                 <button
                                     className={`${isErrorButton["PiR"] && "error"} `}
                                     onClick={() => selectCornerOrientation("PiR")}
@@ -195,30 +197,36 @@ function NSCornerTrainer() {
                         </div>
                         <p>Peanut</p>
                         <div className="peanut-buttons">
-                            <button
-                                className={`${isErrorButton["PeanutLF"] && "error"} `}
-                                onClick={() => selectCornerOrientation("PeanutLF")}
-                            >
-                                ↖️
-                            </button>
-                            <button
-                                className={`${isErrorButton["PeanutFR"] && "error"} `}
-                                onClick={() => selectCornerOrientation("PeanutFR")}
-                            >
-                                ↗️
-                            </button>
-                            <button
-                                className={`${isErrorButton["PeanutBL"] && "error"} `}
-                                onClick={() => selectCornerOrientation("PeanutBL")}
-                            >
-                                ↙️
-                            </button>
-                            <button
-                                className={`${isErrorButton["PeanutRB"] && "error"} `}
-                                onClick={() => selectCornerOrientation("PeanutRB")}
-                            >
-                                ↘️
-                            </button>
+                            <div className="left-buttons">
+                                <button
+                                    className={`${isErrorButton["PeanutLF"] && "error"} `}
+                                    onClick={() => selectCornerOrientation("PeanutLF")}
+                                >
+                                    ↖️
+                                </button>
+                                <button
+                                    className={`${isErrorButton["PeanutBL"] && "error"} `}
+                                    onClick={() => selectCornerOrientation("PeanutBL")}
+                                >
+                                    ↙️
+                                </button>
+                                <div className="empty-div"/>
+                            </div>
+                            <div className="right-buttons">
+                                <div className="empty-div"/>
+                                <button
+                                    className={`${isErrorButton["PeanutFR"] && "error"} `}
+                                    onClick={() => selectCornerOrientation("PeanutFR")}
+                                >
+                                    ↗️
+                                </button>
+                                <button
+                                    className={`${isErrorButton["PeanutRB"] && "error"} `}
+                                    onClick={() => selectCornerOrientation("PeanutRB")}
+                                >
+                                    ↘️
+                                </button>
+                            </div>
                         </div>
                         <br />
                         <button
