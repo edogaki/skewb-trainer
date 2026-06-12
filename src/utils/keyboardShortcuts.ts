@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react';
-import type { CenterPerm } from './utils/skewbUtils'
+import type { CenterPerm } from './skewbUtils'
+import { useLocalStorage } from './useLocalStorage';
 
 function toHumanReadable(eventCode: string) {
     return eventCode.replace(/^(Key|Digit)/, '').replace(/([A-Z])/g, ' $1').trim();
 }
 
 function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void, isEnabled: boolean) {
-    const [keyBinds, setKeyBinds] = useState({
-        "KeyS": "Swirl",
-        "KeyW": "Wat",
-        "KeyX": "X",
-        "KeyU": "HorizontalU",
-        "KeyV": "VerticalU",
-        "KeyO": "O",
-        "KeyC": "ZConj",
-        "KeyT": "TripleSledge",
-        "KeyH": "H",
-        "KeyZ": "Z",
-        "Space": "Pure",
-    } as Record<string, keyof typeof CenterPerm>);
+    const [keyBinds, setKeyBinds] = useLocalStorage(
+        "key-binds",
+        {
+            "KeyS": "Swirl",
+            "KeyW": "Wat",
+            "KeyX": "X",
+            "KeyU": "HorizontalU",
+            "KeyV": "VerticalU",
+            "KeyO": "O",
+            "KeyC": "ZConj",
+            "KeyT": "TripleSledge",
+            "KeyH": "H",
+            "KeyZ": "Z",
+            "Space": "Pure",
+        } as Record<string, keyof typeof CenterPerm>,
+        true,
+    );
     
 
     const writeNewBinds = function(newBinds: Record<string, keyof typeof CenterPerm>) {
@@ -36,8 +41,6 @@ function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void, isEn
         setKeyBinds(bindsCopy);
         return true;
     }
-    
-    console.log({ isEnabled })
     
     useEffect(() => {
         console.log({ keyBinds, now: Date.now() });
