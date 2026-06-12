@@ -22,6 +22,7 @@ interface NSCenterTrainerOptions {
     trainerType: NSCenterTrainerType;
     showRightCornerColors: boolean;
     renderer: RendererOptions;
+    isKeyBindChangerOn: boolean;
 }
 
 function nsCenterTrainerStateToSkewbRendererState(nsCenterTrainerState: NSCenterTrainerState, options: NSCenterTrainerOptions) {

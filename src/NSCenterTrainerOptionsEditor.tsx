@@ -63,6 +63,21 @@ function NSCenterTrainerOptionsEditor({options, setOptions}: {options: NSCenterT
                     <br />
                 </span>
             ))}
+            <br />
+            <button
+                name="isKeyBindChangerOn"
+                type="button"
+                onClick={(e) => {
+                    setOptions(values => ({
+                        ...values,
+                        isKeyBindChangerOn: !values.isKeyBindChangerOn
+                    }));
+                    e.currentTarget.blur();
+                }}
+            >
+                {options.isKeyBindChangerOn ? "Save Changes" : "Show Keybinds" }
+            </button>
+            <br />
         </form>
     );
 }
