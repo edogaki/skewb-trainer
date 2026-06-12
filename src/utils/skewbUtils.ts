@@ -9,9 +9,9 @@ type NSCenterTrainerState = {
 }
 
 const NSCenterTrainerType = {
-    HorizontalU: "Show LFR centers (Horizontal U centers)",
-    O: "Show FRU centers (O centers)",
-    VerticalU: "Show FUB centers (Vertical U centers)",
+    HorizontalU: "Show Horizontal U centers (LFR)",
+    O: "Show O centers (FRU)",
+    VerticalU: "Show Vertical U centers (FUB)",
     Random: "Show random centers subset",
 } as const;
 type NSCenterTrainerType = (typeof NSCenterTrainerType)[keyof typeof NSCenterTrainerType];

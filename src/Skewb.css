@@ -1,4 +1,12 @@
+.trainer-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 100px;
+    align-content: space-around;
+}
+
 .trainer {
+    flex: 0 0 630px;
     display: flex;
 }
 
@@ -8,6 +16,10 @@
 
 .trainer-right {
     flex: 0 0 130px;
+}
+
+.trainer-info {
+    flex: 1 0 300px;
 }
 
 .skewb-box {
