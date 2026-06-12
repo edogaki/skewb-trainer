@@ -60,7 +60,7 @@ function NSCenterTrainerOptionsEditor({options, setOptions}: {options: NSCenterT
                     <label htmlFor={`nsCenterTrainer-${k}`}>
                         {CubeOrientation[k]}
                     </label>
-                    &nbsp;&nbsp;
+                    <br />
                 </span>
             ))}
         </form>

@@ -45,8 +45,6 @@ function NSCornerTrainer() {
         setNSCornerState(generateNSCorners());
         setIsErrorButton(isErrorButtonInitialState)
     }
-    
-    console.log(answeredCorrectButton)
 
     async function selectCornerOrientation(k: keyof typeof CornerOrientation) {
         if (CornerOrientation[k] === cornerOrientation) {
@@ -82,6 +80,10 @@ function NSCornerTrainer() {
         }, 300);
         return () => clearTimeout(id);
     }, [answeredCorrectButton]);
+    
+    useEffect(() => {
+        newState();
+    }, [options]);
 
     return (
         <>
