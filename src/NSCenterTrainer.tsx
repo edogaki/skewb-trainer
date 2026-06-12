@@ -2,12 +2,11 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type NSCenterTrainerOptions, nsCenterTrainerStateToSkewbRendererState, NSCenterTrainerType } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
-
-import { bindKeysToCenterPerm } from './keyboardShortcuts';
 import OptionsEditor from './NSCenterTrainerOptionsEditor';
 import { nonWhiteColors } from './utils/color';
 import { Sound } from './utils/sounds';
 import { CubeOrientation } from './utils/skewbRenderer';
+import { useKeyBinds } from './keyboardShortcuts';
 
 function generateNSCenters() {
     const centers = nonWhiteColors.slice();
@@ -65,11 +64,6 @@ function NSCenterTrainer() {
             setAnsweredCorrectButton(null);
         }
     }
-
-    useEffect(() => {
-        const cleanupFunc = bindKeysToCenterPerm(selectCenterPerm);
-        return cleanupFunc;
-    }, [centerPerm, isErrorButton])
     
     useEffect(() => {
         if (!answeredCorrectButton)
@@ -83,6 +77,8 @@ function NSCenterTrainer() {
     useLayoutEffect(() => {
         newState();
     }, [options]);
+    
+    const [keyBinds, writeNewBinds, isEnabled, setIsEnabled] = useKeyBinds(selectCenterPerm);
 
     return (
         <>
