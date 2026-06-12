@@ -6,26 +6,27 @@ function toHumanReadable(eventCode: string) {
     return eventCode.replace(/^(Key|Digit)/, '').replace(/([A-Z])/g, ' $1').trim();
 }
 
+const initialKeyBinds = {
+    "KeyS": "Swirl",
+    "KeyW": "Wat",
+    "KeyX": "X",
+    "KeyU": "HorizontalU",
+    "KeyV": "VerticalU",
+    "KeyO": "O",
+    "KeyC": "ZConj",
+    "KeyT": "TripleSledge",
+    "KeyH": "H",
+    "KeyZ": "Z",
+    "Space": "Pure",
+} as Record<string, keyof typeof CenterPerm>;
+
 function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void, isEnabled: boolean) {
     const [keyBinds, setKeyBinds] = useLocalStorage(
         "key-binds",
-        {
-            "KeyS": "Swirl",
-            "KeyW": "Wat",
-            "KeyX": "X",
-            "KeyU": "HorizontalU",
-            "KeyV": "VerticalU",
-            "KeyO": "O",
-            "KeyC": "ZConj",
-            "KeyT": "TripleSledge",
-            "KeyH": "H",
-            "KeyZ": "Z",
-            "Space": "Pure",
-        } as Record<string, keyof typeof CenterPerm>,
+        initialKeyBinds,
         true,
     );
     
-
     const writeNewBinds = function(newBinds: Record<string, keyof typeof CenterPerm>) {
         const bindsCopy = {...keyBinds};
         for (const newKey in newBinds) {
@@ -59,8 +60,12 @@ function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void, isEn
             document.removeEventListener("keypress", handleEvent);
         }
     }, [keyBinds, centerPermFunc, isEnabled]);
+    
+    function resetKeyBinds() {
+        setKeyBinds(initialKeyBinds);
+    }
 
-    return [keyBinds, writeNewBinds] as const;
+    return [keyBinds, writeNewBinds, resetKeyBinds] as const;
 }
 
 export {
