@@ -83,43 +83,47 @@ function NSCenterTrainer() {
     return (
         <>
             <h2>NS Center Trainer</h2>
-            <div className="trainer center">
-                <div className="trainer-left">
-                    <div>
-                        {`${correctQuestions}/${totalQuestions} answered correctly`}
-                    </div>
-                    <button onClick={async () => {
-                        Sound.wrong.play();
-                        if (Object.values(isErrorButton).every((v) => v === false)) {
-                            setTotalQuestions((q) => q + 1);
-                        }
-                        setIsErrorButton((obj) => { return Object.fromEntries(
-                            (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
-                        ) as Record<keyof typeof CenterPerm, boolean> });
-                        setAnsweredCorrectButton(null);
-                    }}>I give up</button>
-                    <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)} options={options.renderer}/>
-                </div>
-                <div className="trainer-right">
-                    {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
-                        <div key={k}>
-                            <button
-                                className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
-                                onClick={() => selectCenterPerm(k)}
-                            >
-                                {CenterPerm[k]}
-                            </button>
+            <div className="trainer-box">
+                <div className="trainer center">
+                    <div className="trainer-left">
+                        <div>
+                            {`${correctQuestions}/${totalQuestions} answered correctly`}
                         </div>
-                    ))}
+                        <button onClick={async () => {
+                            Sound.wrong.play();
+                            if (Object.values(isErrorButton).every((v) => v === false)) {
+                                setTotalQuestions((q) => q + 1);
+                            }
+                            setIsErrorButton((obj) => { return Object.fromEntries(
+                                (Object.keys(obj) as Array<keyof typeof CenterPerm>).map((k) => CenterPerm[k] === centerPerm ? [k, false] : [k, true])
+                            ) as Record<keyof typeof CenterPerm, boolean> });
+                            setAnsweredCorrectButton(null);
+                        }}>I give up</button>
+                        <SkewbRenderer state={nsCenterTrainerStateToSkewbRendererState(nsCenterState, options)} options={options.renderer}/>
+                    </div>
+                    <div className="trainer-right">
+                        {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
+                            <div key={k}>
+                                <button
+                                    className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
+                                    onClick={() => selectCenterPerm(k)}
+                                >
+                                    {CenterPerm[k]}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="trainer-info">
+                    <a target="_blank" href="https://docs.google.com/spreadsheets/d/1HcICTLEa15KYq-9FwdQqencTq9m9xHZiSsSZxGsRoTk">
+                        My SA/NS center recognition doc that lists all possible cases and easy-to-mistake ones
+                    </a>
+                    <p>
+                        Keybinds: Space for Pure/Solved, A for Swirl, S for Wat, D for X perm, F for Horizontal U perm, and so on.
+                    </p>
+                    <OptionsEditor options={options} setOptions={setOptions} />
                 </div>
             </div>
-            <a target="_blank" href="https://docs.google.com/spreadsheets/d/1HcICTLEa15KYq-9FwdQqencTq9m9xHZiSsSZxGsRoTk">
-                My SA/NS center recognition doc that lists all possible cases and easy-to-mistake ones
-            </a>
-            <p>
-                Keybinds: Space for Pure/Solved, A for Swirl, S for Wat, D for X perm, F for Horizontal U perm, and so on.
-            </p>
-            <OptionsEditor options={options} setOptions={setOptions} />
         </>
     )
 }
