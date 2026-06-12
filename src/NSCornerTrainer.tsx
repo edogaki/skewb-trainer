@@ -10,7 +10,7 @@ import NSCornerTrainerOptionsEditor from './NSCornerTrainerOptionsEditor';
 function generateNSCorners() {
     const corners = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)]
     const centers = nonWhiteColors.slice();
-    shuffleArray(centers);
+    shuffleArray(centers, true);
     const randomRotation = CubeRotation[Math.floor(Math.random() * CubeRotation.length)];
     const state: NSCornerTrainerState = {
         corners: corners,

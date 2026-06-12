@@ -87,10 +87,15 @@ const CubeRotation = [
 
 type CubeRotation = typeof CubeRotation[number];
 
-function shuffleArray(array: unknown[]) {
+function shuffleArray(array: unknown[], keepParity: boolean = false) {
+    let numSwaps = 0;
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
+        numSwaps += (i - j) ? 1 : 0
+    }
+    if (keepParity && array.length > 1 && numSwaps % 2 === 1) {
+        [array[0], array[1]] = [array[1], array[0]];
     }
 }
 
