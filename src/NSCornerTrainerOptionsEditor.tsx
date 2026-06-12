@@ -25,7 +25,7 @@ function NSCornerTrainerOptionsEditor({options, setOptions}: {options: NSCornerT
                     <label htmlFor={`nsCornerTrainer-${k}`}>
                         {CubeOrientation[k]}
                     </label>
-                    &nbsp;&nbsp;
+                    <br />
                 </span>
             ))}
         </form>

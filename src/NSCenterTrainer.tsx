@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm, type NSCenterTrainerOptions, nsCenterTrainerStateToSkewbRendererState, NSCenterTrainerType } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
@@ -79,6 +79,10 @@ function NSCenterTrainer() {
         }, 300);
         return () => clearTimeout(id);
     }, [answeredCorrectButton]);
+
+    useLayoutEffect(() => {
+        newState();
+    }, [options]);
 
     return (
         <>
