@@ -14,13 +14,18 @@
     flex: 0 1 500px;
 }
 
-.trainer-right {
+.trainer.center > .trainer-right {
     flex: 0 0 auto;
+}
+
+.trainer.corner > .trainer-right {
+    flex: 0 0 130px;
 }
 
 .trainer-info {
     flex: 1 0 300px;
 }
+
 
 .skewb-box {
     /* border: solid; */
