@@ -1,6 +1,6 @@
-import { useKeyBinds } from './keyboardShortcuts';
+import { useKeyBinds } from './utils/keyboardShortcuts';
 import { CenterPerm, type NSCenterTrainerOptions } from './utils/skewbUtils';
-import { toHumanReadable } from './keyboardShortcuts';
+import { toHumanReadable } from './utils/keyboardShortcuts';
 import { useEffect, useState } from 'react';
 
 function NSCenterTrainerAnswerButtons({
