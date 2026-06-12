@@ -6,7 +6,7 @@
 }
 
 .trainer {
-    flex: 0 0 630px;
+    flex: 0 1 630px;
     display: flex;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .trainer-right {
-    flex: 0 0 130px;
+    flex: 0 0 auto;
 }
 
 .trainer-info {
@@ -43,6 +43,10 @@ button.error {
 button.correct-flash {
     color: rgb(19, 80, 0);
     background-color: rgb(201, 255, 196);
+}
+
+.trainer-right .perm-buttons {
+    display: flex;
 }
 
 .trainer-right.up-down .pi-buttons {

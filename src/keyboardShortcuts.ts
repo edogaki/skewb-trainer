@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
 import type { CenterPerm } from './utils/skewbUtils'
 
-function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void) {
+function toHumanReadable(eventCode: string) {
+    return eventCode.replace(/^(Key|Digit)/, '').replace(/([A-Z])/g, ' $1').trim();
+}
+
+function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void, isEnabled: boolean) {
     const [keyBinds, setKeyBinds] = useState({
-        "KeyA": "Swirl",
-        "KeyS": "Wat",
-        "KeyD": "X",
-        "KeyF": "HorizontalU",
-        "KeyG": "VerticalU",
-        "KeyH": "O",
-        "KeyJ": "ZConj",
-        "KeyK": "TripleSledge",
-        "KeyL": "H",
-        "Semicolon": "Z",
+        "KeyS": "Swirl",
+        "KeyW": "Wat",
+        "KeyX": "X",
+        "KeyU": "HorizontalU",
+        "KeyV": "VerticalU",
+        "KeyO": "O",
+        "KeyC": "ZConj",
+        "KeyT": "TripleSledge",
+        "KeyH": "H",
+        "KeyZ": "Z",
         "Space": "Pure",
     } as Record<string, keyof typeof CenterPerm>);
     
@@ -21,16 +25,19 @@ function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void) {
         const bindsCopy = {...keyBinds};
         for (const newKey in newBinds) {
             const perm = newBinds[newKey];
-            const oldKey = Object.keys(bindsCopy).find((k) => bindsCopy[k] === perm);
-            if (oldKey) {
+            const oldKey = Object.keys(bindsCopy).find((k) => bindsCopy[k] === perm)!;
+            if (bindsCopy[newKey]) {
+                [bindsCopy[newKey], bindsCopy[oldKey]] = [bindsCopy[oldKey], bindsCopy[newKey]];
+            } else {
                 delete bindsCopy[oldKey];
                 bindsCopy[newKey] = perm;
             }
         }
         setKeyBinds(bindsCopy);
+        return true;
     }
     
-    const [isEnabled, setIsEnabled] = useState(true);
+    console.log({ isEnabled })
     
     useEffect(() => {
         console.log({ keyBinds, now: Date.now() });
@@ -50,9 +57,10 @@ function useKeyBinds(centerPermFunc: (cp: keyof typeof CenterPerm) => void) {
         }
     }, [keyBinds, centerPermFunc, isEnabled]);
 
-    return [keyBinds, writeNewBinds, isEnabled, setIsEnabled];
+    return [keyBinds, writeNewBinds] as const;
 }
 
 export {
     useKeyBinds,
+    toHumanReadable,
 };
