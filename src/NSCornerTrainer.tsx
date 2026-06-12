@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState, type NSCornerTrainerOptions } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
@@ -81,7 +81,7 @@ function NSCornerTrainer() {
         return () => clearTimeout(id);
     }, [answeredCorrectButton]);
     
-    useEffect(() => {
+    useLayoutEffect(() => {
         newState();
     }, [options]);
 
