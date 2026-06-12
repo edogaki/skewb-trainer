@@ -15,7 +15,7 @@ function NSCenterTrainerAnswerButtons({
     answeredCorrectButton: keyof typeof CenterPerm | null,
 }) {
 
-    const [keyBinds, writeNewBinds] = useKeyBinds(selectCenterPerm, !options.isKeyBindChangerOn);
+    const [keyBinds, writeNewBinds, resetKeyBinds] = useKeyBinds(selectCenterPerm, !options.isKeyBindChangerOn);
     const keyBindsReverse = Object.fromEntries(
         Object.entries(keyBinds).map(([k, v]) => [v, k])
     ) as Record<keyof typeof CenterPerm, string>;
@@ -45,35 +45,44 @@ function NSCenterTrainerAnswerButtons({
         }
     }, [isEditing]);
 
-    return (Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
-        <div key={k} className="perm-buttons">
-            {options.isKeyBindChangerOn ? (
-                <>
-                    <span>
-                        &nbsp;
-                        {CenterPerm[k]}
-                        :&nbsp;
-                        {toHumanReadable(keyBindsReverse[k])}
-                        &nbsp;key&nbsp;
-                    </span>
-                    <button
-                        onClick={(e) => {
-                            e.currentTarget.blur();
-                            setIsEditing(k);
-                        }}
-                        disabled={isEditing !== null && isEditing !== k}
-                    >{isEditing === k ? "Press!" : "Edit"}</button>
-                </>
-            ) : (
-                <button
-                    className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
-                    onClick={() => selectCenterPerm(k)}
-                >
-                    {CenterPerm[k]}
+    return (
+        <>
+            {(Object.keys(CenterPerm) as Array<keyof typeof CenterPerm>).map(k => (
+                <div key={k} className="perm-buttons">
+                    {options.isKeyBindChangerOn ? (
+                        <>
+                            <span>
+                                &nbsp;
+                                {CenterPerm[k]}
+                                :&nbsp;
+                                {toHumanReadable(keyBindsReverse[k])}
+                                &nbsp;key&nbsp;
+                            </span>
+                            <button
+                                onClick={(e) => {
+                                    e.currentTarget.blur();
+                                    setIsEditing(k);
+                                }}
+                                disabled={isEditing !== null && isEditing !== k}
+                            >{isEditing === k ? "Press!" : "Edit"}</button>
+                        </>
+                    ) : (
+                        <button
+                            className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
+                            onClick={() => selectCenterPerm(k)}
+                        >
+                            {CenterPerm[k]}
+                        </button>
+                    )}
+                </div>
+            ))}
+            {options.isKeyBindChangerOn && (
+                <button onClick={() => resetKeyBinds()} disabled={!!isEditing}>
+                    Reset Keybinds
                 </button>
             )}
-        </div>
-    ));
+        </>
+    );
 }
 
 export default NSCenterTrainerAnswerButtons;
