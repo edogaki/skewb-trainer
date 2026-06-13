@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useLayoutEffect, useState } from "react";
 
 /**
  * Local storage hook. Works like useState but saves any
@@ -16,12 +16,13 @@ function useLocalStorage<V extends object>(
     enabled: boolean,
 ): [V, Dispatch<SetStateAction<V>>] {
     const [state, setState] = useState<V>(defaultValue);
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (enabled) {
             const localStorageValue = localStorage.getItem(key);
             if (localStorageValue !== null) {
                 try {
-                    setState(JSON.parse(localStorageValue));
+                    // if any fields are missing in local storage, fill them with fields from defaultValue
+                    setState({...defaultValue, ...JSON.parse(localStorageValue)});
                 } catch (e) {
                     console.warn(
                         "Unparseable value in local storage with key: ",
