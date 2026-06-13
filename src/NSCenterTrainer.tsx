@@ -7,6 +7,7 @@ import { nonWhiteColors } from './utils/color';
 import { Sound } from './utils/sounds';
 import { CubeOrientation } from './utils/skewbRenderer';
 import NSCenterTrainerAnswerButtons from './NSCenterTrainerAnswerButtons';
+import { useLocalStorage } from './utils/useLocalStorage';
 
 function generateNSCenters() {
     const centers = nonWhiteColors.slice();
@@ -20,14 +21,18 @@ function generateNSCenters() {
 }
 
 function NSCenterTrainer() {
-    const [options, setOptions] = useState<NSCenterTrainerOptions>({
-        trainerType: NSCenterTrainerType.HorizontalU,
-        showRightCornerColors: true,
-        renderer: {
-            cubeOrientation: CubeOrientation.UpDown,
+    const [options, setOptions] = useLocalStorage<NSCenterTrainerOptions>(
+        "nsCenterTrainerOptions",
+        {
+            trainerType: NSCenterTrainerType.HorizontalU,
+            showRightCornerColors: true,
+            renderer: {
+                cubeOrientation: CubeOrientation.UpDown,
+            },
+            isKeyBindChangerOn: false,
         },
-        isKeyBindChangerOn: false,
-    });
+        true,
+    );
     const [nsCenterState, setNSCenterState] = useState(generateNSCenters());
     const centerPerm = nsCenterTrainerStateToCenterPerm(nsCenterState);
     

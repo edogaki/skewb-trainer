@@ -6,6 +6,7 @@ import { Sound } from './utils/sounds';
 import { nonWhiteColors } from './utils/color';
 import { CubeOrientation } from './utils/skewbRenderer';
 import NSCornerTrainerOptionsEditor from './NSCornerTrainerOptionsEditor';
+import { useLocalStorage } from './utils/useLocalStorage';
 
 function generateNSCorners() {
     const corners = [Math.floor(Math.random() * 3), Math.floor(Math.random() * 3)]
@@ -22,11 +23,15 @@ function generateNSCorners() {
 
 
 function NSCornerTrainer() {
-    const [options, setOptions] = useState<NSCornerTrainerOptions>({
-        renderer: {
-            cubeOrientation: CubeOrientation.UpDown,
+    const [options, setOptions] = useLocalStorage<NSCornerTrainerOptions>(
+        "nsCornerTrainerOptions",
+        {
+            renderer: {
+                cubeOrientation: CubeOrientation.UpDown,
+            },
         },
-    });
+        true,
+    );
     const [nsCornerState, setNSCornerState] = useState(generateNSCorners());
     const cornerOrientation = nsCornerTrainerStateToCornerOrientation(nsCornerState);
 
