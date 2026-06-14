@@ -44,6 +44,10 @@ function NSCenterTrainerAnswerButtons({
             document.removeEventListener("keypress", handleSetKeyBind);
         }
     }, [isEditing]);
+    
+    const [watPressCounter, setWatPressCounter] = useState(0);
+    
+    console.log({watPressCounter})
 
     return (
         <>
@@ -69,9 +73,22 @@ function NSCenterTrainerAnswerButtons({
                     ) : (
                         <button
                             className={`${isErrorButton[k] ? "error" : answeredCorrectButton === k ? "correct-flash" : ""}`}
-                            onClick={() => selectCenterPerm(k)}
+                            onClick={() => {
+                                selectCenterPerm(k);
+                                if (CenterPerm[k] === CenterPerm.Wat) {
+                                    setWatPressCounter((n) => n + 1);
+                                } else if (watPressCounter < 20) {
+                                    setWatPressCounter(0);
+                                }
+                            }}
                         >
-                            {CenterPerm[k]}
+                            {CenterPerm[k] !== CenterPerm.Wat || watPressCounter < 20 ? CenterPerm[k] : (
+                                // easter egg that turns wat button into wat img after clicking it for more than 20 times consecutively
+                                <img
+                                    src={`${import.meta.env.BASE_URL}/favicon.png`}
+                                    className="wat-img"
+                                />
+                            )}
                         </button>
                     )}
                 </div>
