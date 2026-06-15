@@ -4,7 +4,7 @@ import { type NSCenterTrainerState, nsCenterTrainerStateToCenterPerm, CenterPerm
 import { CubeRotation, shuffleArray } from './utils/math';
 import OptionsEditor from './NSCenterTrainerOptionsEditor';
 import { nonWhiteColors } from './utils/color';
-import { Sound } from './utils/sounds';
+import { setIsMuted, Sound } from './utils/sounds';
 import { CubeOrientation } from './utils/skewbRenderer';
 import NSCenterTrainerAnswerButtons from './NSCenterTrainerAnswerButtons';
 import { useLocalStorage } from './utils/useLocalStorage';
@@ -20,7 +20,7 @@ function generateNSCenters() {
     return state;
 }
 
-function NSCenterTrainer() {
+function NSCenterTrainer({ isMuted }: { isMuted: boolean }) {
     const [options, setOptions] = useLocalStorage<NSCenterTrainerOptions>(
         "nsCenterTrainerOptions",
         {
@@ -84,6 +84,9 @@ function NSCenterTrainer() {
         newState();
     }, [options.renderer, options.showRightCornerColors, options.trainerType]);
     
+    useEffect(() => {
+        setIsMuted(isMuted);
+    }, [isMuted]);
 
     return (
         <>
