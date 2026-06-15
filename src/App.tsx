@@ -32,11 +32,13 @@ function App() {
       <NSCenterTrainer 
         isMuted={isMuted}
       />
+      {/*
       <br />
       <br />
       <NSCornerTrainer
         isMuted={isMuted}
       />
+      */}
     </div>
   )
 }
