@@ -126,12 +126,20 @@ function nsCenterTrainerStateToSkewbRendererState(nsCenterTrainerState: NSCenter
         rotatedCenters[Color.Gray],
         rotatedCenters[
             chosenTrainerType === NSCenterTrainerType.VerticalU
-            ? Color.Blue
+            ? (
+                options.showRightCornerColors
+                ? Color.Blue
+                : Color.Gray
+            )
             : Color.Gray
         ],
         rotatedCenters[
             chosenTrainerType === NSCenterTrainerType.VerticalU
-            ? Color.Blue
+            ? (
+                options.showRightCornerColors
+                ? Color.Blue
+                : Color.Gray
+            )
             : Color.Gray
         ],
         rotatedCenters[
