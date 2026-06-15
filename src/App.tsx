@@ -1,36 +1,43 @@
-import { useState } from 'react';
 import './App.css'
 import NSCenterTrainer from './NSCenterTrainer'
-import NSCornerTrainer from './NSCornerTrainer'
+// import NSCornerTrainer from './NSCornerTrainer'
+import { useLocalStorage } from './utils/useLocalStorage';
+
+interface GlobalOptions {
+  isDarkMode: boolean,
+  isMuted: boolean,
+}
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [globalOptions, setGlobalOptions] = useLocalStorage<GlobalOptions>("globalOptions", {
+    isDarkMode: false,
+    isMuted: false,
+  }, true);
   return (
-    <div className={`app ${isDarkMode ? "dark-mode" : "light-mode"}`}>
+    <div className={`app ${globalOptions.isDarkMode ? "dark-mode" : "light-mode"}`}>
       <div className="toolbar">
         <h1 className="toolbar-title">Skewb Trainer</h1>
         <div className="toolbar-buttons">
           <button
             className="mute-button"
             onClick={() => {
-              setIsMuted((v) => !v);
+              setGlobalOptions((opts) => { return {...opts, isMuted: !opts.isMuted} })
             }}
           >
-            {isMuted ? "Unmute" : "Mute"}
+            {globalOptions.isMuted ? "Unmute" : "Mute"}
           </button>
           <button
             className="dark-mode-button"
             onClick={() => {
-              setIsDarkMode((v) => !v);
+              setGlobalOptions((opts) => { return {...opts, isDarkMode: !opts.isDarkMode} })
             }}
           >
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
+            {globalOptions.isDarkMode ? "Light Mode" : "Dark Mode"}
           </button>
         </div>
       </div>
       <NSCenterTrainer 
-        isMuted={isMuted}
+        isMuted={globalOptions.isMuted}
       />
       {/*
       <br />
