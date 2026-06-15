@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import SkewbRenderer from './SkewbRenderer';
 import { type NSCornerTrainerState, nsCornerTrainerStateToCornerOrientation, CornerOrientation, nsCornerTrainerStateToSkewbRendererState, type NSCornerTrainerOptions } from './utils/skewbUtils';
 import { CubeRotation, shuffleArray } from './utils/math';
-import { Sound } from './utils/sounds';
+import { setIsMuted, Sound } from './utils/sounds';
 import { nonWhiteColors } from './utils/color';
 import { CubeOrientation } from './utils/skewbRenderer';
 import NSCornerTrainerOptionsEditor from './NSCornerTrainerOptionsEditor';
@@ -22,7 +22,7 @@ function generateNSCorners() {
 }
 
 
-function NSCornerTrainer() {
+function NSCornerTrainer({ isMuted }: { isMuted: boolean }) {
     const [options, setOptions] = useLocalStorage<NSCornerTrainerOptions>(
         "nsCornerTrainerOptions",
         {
@@ -89,6 +89,10 @@ function NSCornerTrainer() {
     useLayoutEffect(() => {
         newState();
     }, [options]);
+
+    useEffect(() => {
+        setIsMuted(isMuted);
+    }, [isMuted]);
 
     return (
         <>
