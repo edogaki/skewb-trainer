@@ -4,6 +4,7 @@ body {
 
 .app {
     padding: 12px;
+    height: calc(100vh - 24px);
 }
 
 .app.dark-mode {
